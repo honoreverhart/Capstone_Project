@@ -4,3 +4,9 @@ const uuid = require('uuid');
 const bcrypt = require('bcript');
 const JWT = process.env.JWT || 'shhh';
 const jwt = require('jsonwebtoken');
+
+const createTables = async ()=>{
+    const SQL = `
+    
+    `
+}
