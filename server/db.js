@@ -1,12 +1,15 @@
-const pg = require('pg');
-const client = new pg.Client(process.env.DATABASE_URL || 'postgres://Honor:Ephesians4:29@localhost:/capstone_project_db');
-const uuid = require('uuid');
-const bcrypt = require('bcrypt');
-const JWT = process.env.JWT || 'shhh';
-const jwt = require('jsonwebtoken');
+const pg = require("pg");
+const client = new pg.Client(
+  process.env.DATABASE_URL ||
+    "postgres://Honor:Ephesians4:29@localhost:/capstone_project_db"
+);
+const uuid = require("uuid");
+const bcrypt = require("bcrypt");
+const JWT = process.env.JWT || "shhh";
+const jwt = require("jsonwebtoken");
 
-const createTables = async ()=>{
-    const SQL = `
+const createTables = async () => {
+  const SQL = `
     DROP TABLE IF EXISTS workout_plans;
     DROP TABLE IF EXISTS workouts;
     DROP TABLE IF EXISTS clients;
@@ -40,132 +43,130 @@ const createTables = async ()=>{
     );
 
     `;
-    await client.query(SQL);
+  await client.query(SQL);
 };
 
-const createUser = async({username, password})=>{
-    const SQL = `
+const createUser = async ({ username, password }) => {
+  const SQL = `
     INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
     `;
-    const response = await client.query(SQL, [uuid.v4(), username, await bcrypt.hash(password, 5) ]);
-    return response.rows[0];
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    username,
+    await bcrypt.hash(password, 5),
+  ]);
+  return response.rows[0];
 };
 
-const createTrainer = async({username, password})=>{
-    const SQL = `
+const createTrainer = async ({ username, password }) => {
+  const SQL = `
     INSERT INTO trainers(id, username, password) VALUES($1, $2, $3) RETURNING *
     `;
-    const response = await client.query(SQL, [uuid.v4(), username, await bcrypt.hash(password, 5) ]);
-    return response.rows[0];
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    username,
+    await bcrypt.hash(password, 5),
+  ]);
+  return response.rows[0];
 };
 
-const createClient = async({user_id, trainer_id})=>{
-    const SQL = `
+const createClient = async ({ user_id, trainer_id }) => {
+  const SQL = `
     INSERT INTO clients(id, user_id, trainer_id) VALUES($1, $2, $3) RETURNING *
     `;
-    const response = await client.query(SQL, [uuid.v4(), user_id, trainer_id]);
-    return response.rows[0];
+  const response = await client.query(SQL, [uuid.v4(), user_id, trainer_id]);
+  return response.rows[0];
 };
 
-const fetchUser = async()=>{
-    const SQL = `
+const fetchUser = async () => {
+  const SQL = `
     SELECT id, username FROM users;
     `;
-    const response = await client.query(SQL);
-    return response.rows;
+  const response = await client.query(SQL);
+  return response.rows;
 };
 
-const fetchTrainer = async()=>{
-    const SQL = `
+const fetchTrainer = async () => {
+  const SQL = `
     SELECT id, username FROM trainers;
     `;
-    const response = await client.query(SQL);
-    return response.rows;
+  const response = await client.query(SQL);
+  return response.rows;
 };
 
-const fetchClient = async({user_id})=>{
-    const SQL = `
+const fetchClient = async ({ user_id }) => {
+  const SQL = `
     SELECT * FROM clients WHERE user_id = $1
     `;
-    const response = await client.query(SQL, [user_id]);
-    return response.rows;
+  const response = await client.query(SQL, [user_id]);
+  return response.rows;
 };
 
-const destroyClient = async({user_id, id})=>{
-    const SQL = `
+const destroyClient = async ({ user_id, id }) => {
+  const SQL = `
     DELETE FROM clients WHERE user_id=$1 AND id=$2
     `;
-    await client.query(SQL, [user_id, id])
+  await client.query(SQL, [user_id, id]);
 };
 
-const createWorkout = async()=>{
-    
-};
+const createWorkout = async () => {};
 
-const createWorkout_Plan = async()=>{
-    
-};
+const createWorkout_Plan = async () => {};
 
-const fetchWorkout = async()=>{
-    
-};
+const fetchWorkout = async () => {};
 
-const fetchWorkout_Plan = async()=>{
-    
-};
+const fetchWorkout_Plan = async () => {};
 
-const destroyWorkout = async()=>{
-    
-};
+const destroyWorkout = async () => {};
 
-const destroyWorkout_Plan = async()=>{
-    
-};
+const destroyWorkout_Plan = async () => {};
 
-const authenticate = async({username, password})=>{
-    const SQL = `
+const authenticate = async ({ username, password }) => {
+  const SQL = `
     SELECT id, username, password FROM users WHERE username=$1
     `;
-    const response = await client.query(SQL,[username]);
-    if(!response.rows.length || (await bcrypt.compare(password, response.rows[0].pasword)) === false){
-        const error = Error('not authorized');
-        error.status = 401;
-        throw error;
-    }
-    console.log(response)
-    const token = jwt.sign(response.rows[0], JWT);
-    return {token: token};
+  const response = await client.query(SQL, [username]);
+  if (
+    !response.rows.length ||
+    (await bcrypt.compare(password, response.rows[0].pasword)) === false
+  ) {
+    const error = Error("not authorized");
+    error.status = 401;
+    throw error;
+  }
+  console.log(response);
+  const token = jwt.sign(response.rows[0], JWT);
+  return { token: token };
 };
 
-const findUserWithToken = async(token)=>{
-    try{
-        const payload = jwt.verify(token.replace("Bearer ", ""), JWT);
-        console.log(payload + "Hello World");
-        return payload;
-    }catch(ex){
-        const error = Error('not authorized');
-        error.status = 401;
-        throw error;
-    }
+const findUserWithToken = async (token) => {
+  try {
+    const payload = jwt.verify(token.replace("Bearer ", ""), JWT);
+    console.log(payload + "Hello World");
+    return payload;
+  } catch (ex) {
+    const error = Error("not authorized");
+    error.status = 401;
+    throw error;
+  }
 };
 
 module.exports = {
-    client,
-    createTables,
-    createUser,
-    createTrainer,
-    createClient,
-    fetchUser,
-    fetchTrainer,
-    fetchClient, 
-    destroyClient, //might not use
-    createWorkout,
-    createWorkout_Plan,
-    fetchWorkout,
-    fetchWorkout_Plan,
-    destroyWorkout,
-    destroyWorkout_Plan,
-    authenticate,
-    findUserWithToken
-
-}
+  client,
+  createTables,
+  createUser,
+  createTrainer,
+  createClient,
+  fetchUser,
+  fetchTrainer,
+  fetchClient,
+  destroyClient, //might not use
+  createWorkout,
+  createWorkout_Plan,
+  fetchWorkout,
+  fetchWorkout_Plan,
+  destroyWorkout,
+  destroyWorkout_Plan,
+  authenticate,
+  findUserWithToken,
+};
