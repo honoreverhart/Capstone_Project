@@ -122,12 +122,31 @@ const destroyWorkout_Plan = async()=>{
     
 };
 
-const authenticate = async()=>{
-    
+const authenticate = async({username, password})=>{
+    const SQL = `
+    SELECT id, username, password FROM users WHERE username=$1
+    `;
+    const response = await client.query(SQL,[username]);
+    if(!response.rows.length || (await bcrypt.compare(password, response.rows[0].pasword)) === false){
+        const error = Error('not authorized');
+        error.status = 401;
+        throw error;
+    }
+    console.log(response)
+    const token = jwt.sign(response.rows[0], JWT);
+    return {token: token};
 };
 
-const findUserWithToken = async()=>{
-    
+const findUserWithToken = async(token)=>{
+    try{
+        const payload = jwt.verify(token.replace("Bearer ", ""), JWT);
+        console.log(payload + "Hello World");
+        return payload;
+    }catch(ex){
+        const error = Error('not authorized');
+        error.status = 401;
+        throw error;
+    }
 };
 
 module.exports = {
