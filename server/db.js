@@ -45,16 +45,26 @@ const createTables = async ()=>{
 
 const createUser = async({username, password})=>{
     const SQL = `
-    
-    `
+    INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
+    `;
+    const response = await client.query(SQL, [uuid.v4(), username, await bcrypt.hash(password, 5) ]);
+    return response.rows[0];
 };
 
 const createTrainer = async({username, password})=>{
-    
+    const SQL = `
+    INSERT INTO trainers(id, username, password) VALUES($1, $2, $3) RETURNING *
+    `;
+    const response = await client.query(SQL, [uuid.v4(), username, await bcrypt.hash(password, 5) ]);
+    return response.rows[0];
 };
 
-const createClient = async()=>{
-    
+const createClient = async({user_id, trainer_id})=>{
+    const SQL = `
+    INSERT INTO clients(id, user_id, trainer_id) VALUES($1, $2, $3) RETURNING *
+    `;
+    const response = await client.query(SQL, [uuid.v4(), user_id, trainer_id]);
+    return response.rows[0];
 };
 
 const fetchUser = async()=>{
