@@ -1,3 +1,22 @@
+const {
+    client,
+    createTables,
+    createUser,
+    createTrainer,
+    createClient,
+    fetchUser,
+    fetchTrainer,
+    fetchClient, 
+    destroyClient,
+    createWorkout,
+    createWorkout_Plan,
+    fetchWorkout,
+    fetchWorkout_Plan,
+    destroyWorkout,
+    destroyWorkout_Plan,
+    authenticate,
+    findUserWithToken
+  } = require('./db');
 const express = require('express');
 const app = express();
 app.use(express.json());
@@ -9,3 +28,13 @@ app.use('/assets', express.static(path.join(__dirname, '../client/Capstone_Proje
 //middleware
 
 //REST
+
+const init = async()=> {
+    const port = process.env.PORT || 3000;
+    await client.connect();
+    console.log('connected to database');
+
+    app.listen(port, ()=> console.log(`listening on port ${port}`));
+};
+
+init();

@@ -1,7 +1,7 @@
 const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL || 'postgres://Honor:Ephesians4:29@localhost:/capstone_project_db');
 const uuid = require('uuid');
-const bcrypt = require('bcript');
+const bcrypt = require('bcrypt');
 const JWT = process.env.JWT || 'shhh';
 const jwt = require('jsonwebtoken');
 
@@ -44,7 +44,9 @@ const createTables = async ()=>{
 };
 
 const createUser = async({username, password})=>{
-
+    const SQL = `
+    
+    `
 };
 
 const createTrainer = async({username, password})=>{
