@@ -68,19 +68,34 @@ const createClient = async({user_id, trainer_id})=>{
 };
 
 const fetchUser = async()=>{
-    
+    const SQL = `
+    SELECT id, username FROM users;
+    `;
+    const response = await client.query(SQL);
+    return response.rows;
 };
 
 const fetchTrainer = async()=>{
-    
+    const SQL = `
+    SELECT id, username FROM trainers;
+    `;
+    const response = await client.query(SQL);
+    return response.rows;
 };
 
-const fetchClient = async()=>{
-    
+const fetchClient = async({user_id})=>{
+    const SQL = `
+    SELECT * FROM clients WHERE user_id = $1
+    `;
+    const response = await client.query(SQL, [user_id]);
+    return response.rows;
 };
 
-const destroyClient = async()=>{
-    
+const destroyClient = async({user_id, id})=>{
+    const SQL = `
+    DELETE FROM clients WHERE user_id=$1 AND id=$2
+    `;
+    await client.query(SQL, [user_id, id])
 };
 
 const createWorkout = async()=>{
