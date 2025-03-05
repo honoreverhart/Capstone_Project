@@ -43,7 +43,7 @@ app.post("/api/auth/register", async (req, res, next) => {
   }
 });
 
-app.post("/api/auth/register", async (req, res, next) => {
+app.post("/api/users", async (req, res, next) => {
   try {
     res.send(await createUser(req.body));
   } catch (ex) {
