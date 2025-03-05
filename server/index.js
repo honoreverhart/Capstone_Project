@@ -2,18 +2,10 @@ const {
   client,
   createTables,
   createUser,
-  createTrainer,
-  createClient,
   fetchUser,
-  fetchTrainer,
-  fetchClient,
-  destroyClient,
   createWorkout,
-  createWorkout_Plan,
   fetchWorkout,
-  fetchWorkout_Plan,
   destroyWorkout,
-  destroyWorkout_Plan,
   authenticate,
   findUserWithToken,
 } = require("./db");
@@ -42,6 +34,53 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 //REST
+app.post("/api/auth/register", async (req, res, next) => {
+  try {
+    res.send(await authenticate(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post("/api/auth/register", async (req, res, next) => {
+  try {
+    res.send(await createUser(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.get("/api/auth/me", isLoggedIn, (req, res, next) => {
+  try {
+    res.send(req.user);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.get("/api/users", async (req, res, next) => {
+  try {
+    res.send(await fetchUser());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.get('/api/workouts', async(req, res, next)=> {
+    try {
+      res.send(await fetchWorkout());
+    }
+    catch(ex){
+      next(ex);
+    }
+  });
+
+app.use((err, req, res, next) => {
+  console.log(err);
+  res
+    .status(err.status || 500)
+    .send({ error: err.message ? err.message : err });
+});
 
 const init = async () => {
   const port = process.env.PORT || 3000;
