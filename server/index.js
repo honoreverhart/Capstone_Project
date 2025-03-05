@@ -6,6 +6,7 @@ const {
   createWorkout,
   fetchWorkout,
   destroyWorkout,
+  assignWorkout,
   authenticate,
   findUserWithToken,
 } = require("./db");
@@ -66,14 +67,37 @@ app.get("/api/users", async (req, res, next) => {
   }
 });
 
-app.get('/api/workouts', async(req, res, next)=> {
-    try {
-      res.send(await fetchWorkout());
-    }
-    catch(ex){
-      next(ex);
-    }
-  });
+app.get("/api/workouts", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await fetchWorkout());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post("/api/workouts", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await createWorkout(req.params.name, req.params.description));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.delete("/api/workouts/:id", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await destroyWorkout({ id: req.params.id }));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.post("/api/assigned_workouts", isLoggedIn, async (req, res, next) => {
+  try {
+    res.send(await assignWorkout(req.params.workout_id, req.params.user_id));
+  } catch (ex) {
+    next(ex);
+  }
+});
 
 app.use((err, req, res, next) => {
   console.log(err);

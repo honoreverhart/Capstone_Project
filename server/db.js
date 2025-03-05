@@ -15,7 +15,10 @@ const createTables = async () => {
     DROP TABLE IF EXISTS assigned_workouts;
     CREATE TABLE users(
         id UUID PRIMARY KEY,
-        username VARCHAR(20) UNIQUE NOT NULL,
+        first_name VARCHAR (255) NOT NULL,
+        last_name VARCHAR (255) NOT NULL,
+        email VARCHAR (255) NOT NULL,
+        username VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR (255) NOT NULL,
         role ENUM('trainer', 'client') NOT NULL,
     );
@@ -36,12 +39,15 @@ const createTables = async () => {
   await client.query(SQL);
 };
 
-const createUser = async ({ username, password }) => {
+const createUser = async ({ first_name, last_name, email, username, password }) => {
   const SQL = `
-    INSERT INTO users(id, username, password) VALUES($1, $2, $3) RETURNING *
+    INSERT INTO users(id, first_name, last_name, email, username, password) VALUES($1, $2, $3, $4, $5, $6) RETURNING *
     `;
   const response = await client.query(SQL, [
     uuid.v4(),
+    first_name,
+    last_name, 
+    email,
     username,
     await bcrypt.hash(password, 5),
   ]);
@@ -72,7 +78,12 @@ const fetchWorkout = async () => {
   return response.rows;
 };
 
-const destroyWorkout = async () => {};
+const destroyWorkout = async (id) => {
+    const SQL =`
+    DELETE FROM workouts WHERE id = $1
+    `;
+    await client.query(SQL, [id]);
+};
 
 const assignWorkout = async(workout_id, user_id) => {
     const SQL =`
