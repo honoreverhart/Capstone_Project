@@ -48,7 +48,7 @@ const createUser = async ({
   email,
   username,
   password,
-  role
+  role,
 }) => {
   const SQL = `
     INSERT INTO users(id, first_name, last_name, email, username, password, role) VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING *
@@ -60,7 +60,7 @@ const createUser = async ({
     email,
     username,
     await bcrypt.hash(password, 5),
-    role
+    role,
   ]);
   return response.rows[0];
 };
@@ -73,7 +73,7 @@ const fetchUser = async () => {
   return response.rows;
 };
 
-const createWorkout = async ({name, description}) => {
+const createWorkout = async ({ name, description }) => {
   const SQL = `
     INSERT INTO workouts(name, description) VALUES($1, $2) RETURNING *
     `;
@@ -104,14 +104,29 @@ const assignWorkout = async (workout_id, user_id) => {
   return response.rows[0];
 };
 
-const authenticate = async ({ username, password }) => {
+const authenticate = async ({
+  first_name,
+  last_name,
+  email,
+  username,
+  password,
+  role,
+}) => {
   const SQL = `
-    SELECT id, username, password FROM users WHERE username=$1
+    SELECT id, first_name, last_name, email, username, password, role FROM users WHERE id=$1 AND first_name=$2 AND last_name=$3 AND email=$4 AND username=$5 AND password=$6 AND role=$7
     `;
-  const response = await client.query(SQL, [username]);
+  const response = await client.query(SQL, [
+    uuid.v4(),
+    first_name,
+    last_name,
+    email,
+    username,
+    await bcrypt.hash(password, 5),
+    role
+  ]);
   if (
     !response.rows.length ||
-    (await bcrypt.compare(password, response.rows[0].pasword)) === false
+    (await bcrypt.compare(password, response.rows[0].password)) === false
   ) {
     const error = Error("not authorized");
     error.status = 401;
