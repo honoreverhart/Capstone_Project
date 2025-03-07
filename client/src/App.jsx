@@ -9,7 +9,13 @@ import "./App.css";
 function App() {
   // const [token, setToken] = useState(null);
   return <>
-  
+  <BrowserRouter>
+  <Routes>
+    <Route path="/homepage" element={<HomePage/>}>
+      
+    </Route>
+  </Routes>
+  </BrowserRouter>
   </>;
 }
 
