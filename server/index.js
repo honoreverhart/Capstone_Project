@@ -67,7 +67,7 @@ app.get("/api/users", async (req, res, next) => {
   }
 });
 
-app.get("/api/workouts", isLoggedIn, async (req, res, next) => {
+app.get("/api/workouts", async (req, res, next) => {
   try {
     res.send(await fetchWorkout());
   } catch (ex) {
@@ -75,7 +75,7 @@ app.get("/api/workouts", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.post("/api/workouts", isLoggedIn, async (req, res, next) => {
+app.post("/api/workouts", async (req, res, next) => {
   try {
     res.send(await createWorkout(req.params.name, req.params.description));
   } catch (ex) {

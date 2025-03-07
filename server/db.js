@@ -27,7 +27,7 @@ const createTables = async () => {
     CREATE TABLE workouts(
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
-        description VARCHAR(500) NOT NULL
+        description VARCHAR(255) NOT NULL
     );
 
     CREATE TABLE assigned_workouts(
@@ -104,26 +104,11 @@ const assignWorkout = async (workout_id, user_id) => {
   return response.rows[0];
 };
 
-const authenticate = async ({
-  first_name,
-  last_name,
-  email,
-  username,
-  password,
-  role,
-}) => {
+const authenticate = async ({ username, password }) => {
   const SQL = `
-    SELECT id, first_name, last_name, email, username, password, role FROM users WHERE id=$1 AND first_name=$2 AND last_name=$3 AND email=$4 AND username=$5 AND password=$6 AND role=$7
+    SELECT id, username, password FROM users WHERE username=$1
     `;
-  const response = await client.query(SQL, [
-    uuid.v4(),
-    first_name,
-    last_name,
-    email,
-    username,
-    await bcrypt.hash(password, 5),
-    role
-  ]);
+  const response = await client.query(SQL, [username]);
   if (
     !response.rows.length ||
     (await bcrypt.compare(password, response.rows[0].password)) === false
@@ -139,7 +124,10 @@ const authenticate = async ({
 
 const findUserWithToken = async (token) => {
   try {
-    const payload = jwt.verify(token.replace("Bearer ", ""), JWT);
+    const payload = jwt.verify(
+      token.replace("Bearer ", ""),
+      process.env.JWT_SECRET || "secret"
+    );
     console.log(payload + "Hello World");
     return payload;
   } catch (ex) {
