@@ -13,6 +13,7 @@ const {
 const express = require("express");
 const app = express();
 app.use(express.json());
+const cors = require("cors");
 
 const path = require("path");
 app.get("/", (req, res) =>
@@ -20,6 +21,9 @@ app.get("/", (req, res) =>
     path.join(__dirname, "../client/Capstone_Project/dist/index.html")
   )
 );
+app.use(
+  cors()
+)
 app.use(
   "/assets",
   express.static(path.join(__dirname, "../client/Capstone_Project/dist/assets"))
@@ -77,7 +81,7 @@ app.get("/api/workouts", async (req, res, next) => {
 
 app.post("/api/workouts", async (req, res, next) => {
   try {
-    res.send(await createWorkout(req.params.name, req.params.description));
+    res.send(await createWorkout({name: req.body.name, description: req.body.description}));
   } catch (ex) {
     next(ex);
   }

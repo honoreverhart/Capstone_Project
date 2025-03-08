@@ -1,6 +1,21 @@
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react"
+
+
 export default function HomePage() {
+    
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        fetch("http://localhost:3000/api/workouts").then(res => res.json()).then(data => console.log(data))
+    }, [])
   return (
     <div>
+        <div className="navbar">
+            <h1 className="logo">EndoPeaks</h1>
+            <button onClick = {()=>navigate("/login")}>Sign in</button>
+            <button onClick = {()=>navigate("/register")}>Create an Account</button>
+        </div>
       <h1>Welcome to Endurance Peak!</h1>
       <h3>Who we are</h3>
       <p>
