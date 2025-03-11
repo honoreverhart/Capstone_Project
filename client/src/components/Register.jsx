@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { use } from "react";
+import { getRegisterToken } from "../api";
 
-export default function Register() {
-  navigate = useNavigate();
-
+export default function Register({setToken}) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -21,6 +20,19 @@ export default function Register() {
       [name]: value,
     }));
   };
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    const register = await getRegisterToken(formData)
+    if(register.token){
+      setToken(register.token)
+      localStorage.setItem("token", register.token)
+      navigate("/account")
+    }else{
+      alert("Failure to register")
+    }
+  }
+
   return (
     <>
       <div>

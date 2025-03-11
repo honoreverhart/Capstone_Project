@@ -6,9 +6,9 @@ export default function HomePage() {
     
     const navigate = useNavigate();
 
-    useEffect(()=>{
-        fetch("http://localhost:3000/api/workouts").then(res => res.json()).then(data => console.log(data))
-    }, [])
+    // useEffect(()=>{
+    //     fetch("http://localhost:3000/api/workouts").then(res => res.json()).then(data => console.log(data))
+    // }, [])
   return (
     <div>
         <div className="navbar">
@@ -23,7 +23,10 @@ export default function HomePage() {
         accomplish they're fitness goals. Every person has peaks to climb.
         Through perseverance and endurance you can overcome these mountains!
         Join us today to conquer your fitness peaks!
+        <br></br>
+        <button onClick = {()=>navigate("/register")}>Sign Up Today!</button>
       </p>
+      
     </div>
   );
 }

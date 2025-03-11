@@ -2,9 +2,26 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Login() {
-  navigate = useNavigate();
+  const navigate = useNavigate();
 
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({
+    username: "username",
+    password: "password"
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e)=>{
+    e.preventDefault();
+    
+  }
+
   return (
     <>
       <div>

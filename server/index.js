@@ -39,7 +39,7 @@ const isLoggedIn = (req, res, next) => {
   }
 };
 //REST
-app.post("/api/auth/register", async (req, res, next) => {
+app.post("/api/auth/login", async (req, res, next) => {
   try {
     res.send(await authenticate(req.body));
   } catch (ex) {
@@ -47,7 +47,7 @@ app.post("/api/auth/register", async (req, res, next) => {
   }
 });
 
-app.post("/api/users", async (req, res, next) => {
+app.post("/api/auth/register", async (req, res, next) => {
   try {
     res.send(await createUser(req.body));
   } catch (ex) {
