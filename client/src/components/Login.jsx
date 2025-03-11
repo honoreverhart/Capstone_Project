@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { getLoginToken } from "../api";
 
-export default function Login() {
+export default function Login({ setToken }) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: "username",
-    password: "password"
+    password: "password",
   });
 
   const handleChange = (e) => {
@@ -17,15 +18,22 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = async (e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-  }
+    const login = await getLoginToken(formData);
+    if (login.token) {
+      setToken(login.token);
+      localStorage.setItem("token", login.token);
+      navigate("/account");
+    } else {
+      alert("Username or Password incorrect");
+    }
+  };
 
   return (
     <>
       <div>
-        <form>
+        <form className="login" onSubmit={handleSubmit}>
           <label>
             Username:{" "}
             <input
@@ -46,7 +54,11 @@ export default function Login() {
               required
             />
           </label>
+          <button className="button">Login</button>
         </form>
+        <button className="button" onClick={() => navigate("/")}>
+          Back To Home Page
+        </button>
       </div>
     </>
   );
