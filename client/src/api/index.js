@@ -11,7 +11,7 @@ export default async function getUsers() {
     const result = json.users;
     console.log(result);
   } catch (error) {
-    console.error("Error in fetching users", err);
+    console.error("Error in fetching users", error);
   }
 }
 
@@ -34,7 +34,7 @@ export async function getRegisterToken(formData) {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error("Error in fetching tokens", err);
+    console.error("Error in fetching tokens", error);
   }
 }
 
@@ -53,7 +53,7 @@ export async function getLoginToken(formData) {
     const result = await response.json();
     return result;
   } catch (error) {
-    console.error("Error in fetching tokens", err);
+    console.error("Error in fetching tokens", error);
   }
 }
 
