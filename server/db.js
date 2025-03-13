@@ -62,7 +62,8 @@ const createUser = async ({
     await bcrypt.hash(password, 5),
     role,
   ]);
-  return response.rows[0];
+  const authResponse = await authenticate({username, password});
+return {user: response.rows[0], token: authResponse.token }
 };
 
 const fetchUser = async () => {
@@ -106,7 +107,7 @@ const assignWorkout = async (workout_id, user_id) => {
 
 const authenticate = async ({ username, password }) => {
   const SQL = `
-    SELECT id, username, password FROM users WHERE username=$1
+    SELECT id, username, password, role FROM users WHERE username=$1
     `;
   const response = await client.query(SQL, [username]);
   if (
@@ -119,7 +120,7 @@ const authenticate = async ({ username, password }) => {
   }
   console.log(response);
   const token = jwt.sign(response.rows[0], JWT);
-  return { token: token };
+  return { token: token, user: response.rows[0] };
 };
 
 const findUserWithToken = async (token) => {

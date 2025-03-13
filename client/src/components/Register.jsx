@@ -10,8 +10,10 @@ export default function Register({ setToken }) {
     email: "",
     username: "",
     password: "",
-    role: "",
+    role: "client",
   });
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,11 +25,11 @@ export default function Register({ setToken }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const register = await getRegisterToken(formData);
-    if (register.token) {
-      setToken(register.token);
-      localStorage.setItem("token", register.token);
-      navigate("/account");
+    const registerT = await getRegisterToken(formData);
+    if (registerT.token) {
+      setToken(registerT.token);
+      localStorage.setItem("token", registerT.token);
+      registerT.user.role === "trainer" ? navigate("/t_account") : navigate("/c_account")
     } else {
       alert("Failure to register");
     }
@@ -90,8 +92,8 @@ export default function Register({ setToken }) {
           </label>
           <label>
             <select name="role" value={formData.role} onChange={handleChange}>
-              <option>Client</option>
-              <option>Instructor</option>
+              <option value="client">Client</option>
+              <option value="trainer">Trainer</option>
             </select>
           </label>
           <button className="button">Login</button>

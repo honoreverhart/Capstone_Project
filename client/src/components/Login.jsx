@@ -6,8 +6,8 @@ export default function Login({ setToken }) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    username: "username",
-    password: "password",
+    username: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -20,11 +20,11 @@ export default function Login({ setToken }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const login = await getLoginToken(formData);
-    if (login.token) {
-      setToken(login.token);
-      localStorage.setItem("token", login.token);
-      navigate("/account");
+    const loginT = await getLoginToken(formData);
+    if (loginT.token) {
+      setToken(loginT.token);
+      localStorage.setItem("token", loginT.token);
+      loginT.user.role === "trainer" ? navigate("/t_account") : navigate("/c_account")
     } else {
       alert("Username or Password incorrect");
     }

@@ -57,3 +57,41 @@ export async function getLoginToken(formData) {
   }
 }
 
+export async function getWorkouts() {
+  try {
+    const response = await fetch(`${BASE_URL}/workouts`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+    const result = json.users;
+    console.log(result);
+  } catch (error) {
+    console.error("Error in fetching users", error);
+  }
+}
+
+export async function createWorkout(){
+  try {
+    const response = await fetch(`${BASE_URL}/workouts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await response.json();
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error("Error in fetching users", error);
+  }
+}
+
+export async function assigned_Workouts() {
+
+}
+
+export async function deleteWorkout(){
+  
+}

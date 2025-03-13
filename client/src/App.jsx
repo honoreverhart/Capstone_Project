@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import HomePage from "./components/HomePage";
-import Account from "./components/Account";
+import Trainer_Account from "./components/Trainer_Account";
+import Client_Account from "./components/Client_Account";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -23,7 +24,8 @@ function App() {
           <Route path="/" element={<HomePage token={token} setToken={setToken} />} />
           <Route path="/login" element={<Login setToken={setToken}/>} />
           <Route path="/register" element={<Register setToken={setToken}/>} />
-          <Route path="/account" element={<Account token={token} setToken={setToken}/>} />
+          <Route path="/t_account" element={<Trainer_Account token={token} setToken={setToken}/>} />
+          <Route path="/c_account" element={<Client_Account token={token} setToken={setToken}/>} />
         </Routes>
       </BrowserRouter>
     </>
