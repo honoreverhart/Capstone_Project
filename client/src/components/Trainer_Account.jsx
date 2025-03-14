@@ -1,26 +1,78 @@
-import { useNavigate } from "react-router-dom";
-import { getWorkouts, createWorkout, assigned_Workouts, deleteWorkout } from "../api";
-import { useState, useEffect } from "react";
+import {
+  getWorkouts,
+  createWorkout,
+  assigned_Workouts,
+  deleteWorkout,
+} from "../api";
+import { useState, useEffect, useNavigate } from "react";
 
-export default function T_Account() {
+export default function T_Account({ setToken }) {
+  const navigate = useNavigate();
+  const [workoutData, setWorkoutData] = useState({
+    name: "",
+    description: "",
+  });
 
-  const handleSubmit = async (e) =>{
-    e.preventDefault()
-    const create_workout = await createWorkout();
-    
+  const [createWorkoutResult, setCreateWorkoutResult] = useState(null)
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setWorkoutData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const create_workout = await createWorkout(workoutData);
+    setCreateWorkoutResult(create_workout);
+  };
+
+  const handleSignOut = () =>{
+    navigate("/login");
+    setToken(null)
+    localStorage.removeItem("token")
   }
 
   return (
     <>
       <p>Trainer :)</p>
+      <button className="button" onClick={handleSignOut}>
+        Sign-Out
+      </button>
 
-      <form onSubmit={handleSubmit()}>
+      <form className="createWorkout" onSubmit={handleSubmit}>
         <label>
-          <input>
-          </input>
+          Name:
+          <input
+            type="text"
+            name="name"
+            value={workoutData.name}
+            onChange={handleChange}
+            required
+          />
+        </label>
+        <label>
+          Description:
+          <input
+            type="text"
+            name="description"
+            value={workoutData.description}
+            onChange={handleChange}
+            required
+          />
         </label>
         <button>Create Workout</button>
       </form>
+
+      {createWorkoutResult && (
+        <div className="workoutCard">
+          <h3>Workout Created:</h3>
+          <p><strong>Name:</strong> {createWorkoutResult.name}</p>
+          <p><strong>Description:</strong> {createWorkoutResult.description}</p>
+        </div>
+      )}
     </>
   );
 }

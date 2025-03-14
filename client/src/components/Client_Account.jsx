@@ -1,7 +1,20 @@
-export default function C_Account() {
+import { useNavigate } from "react-router-dom";
+
+export default function C_Account({setToken}) {
+  const navigate = useNavigate();
+
+  const handleSignOut = () =>{
+    navigate("/login");
+    setToken(null)
+    localStorage.removeItem("token")
+  }
+  
   return (
     <>
       <p>Client :)</p>
+      <button className="button" onClick={handleSignOut}>
+        Sign-Out
+      </button>
     </>
   );
 }

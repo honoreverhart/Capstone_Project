@@ -1,12 +1,23 @@
-.navbar{
+.navbar {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 80%; /* 80% of the container width */
+  padding: 10px 20px;
+  margin: 0 auto;
+  border-radius: 5px; /* Optional: rounded corners */
+  /* display: flex;
+  justify-content: center;
   border: solid black;
-  margin: 5px;
-  padding: 5px;
+  padding: 5px 10px; 
+  margin: 0 5px;  */
+  /* height: 10%;
+  max-width: 1200px;
+  width: 100%; 
+  max-width: 1200px;
+  margin: 0 auto;  */
 }
 
-.navbar.logo{
+.navbar.logo {
   float: left;
 }
-

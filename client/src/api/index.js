@@ -72,13 +72,22 @@ export async function getWorkouts() {
   }
 }
 
-export async function createWorkout(){
+export async function createWorkout(setWorkoutData) {
+  if (!setWorkoutData || !setWorkoutData.name || !setWorkoutData.description) {
+    console.error("Workout data is invalid", setWorkoutData);
+    return;
+  }
+
   try {
     const response = await fetch(`${BASE_URL}/workouts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        name: setWorkoutData.name,
+        description: setWorkoutData.description,
+      }),
     });
     const result = await response.json();
     console.log(result);
@@ -88,10 +97,6 @@ export async function createWorkout(){
   }
 }
 
-export async function assigned_Workouts() {
+export async function assigned_Workouts() {}
 
-}
-
-export async function deleteWorkout(){
-  
-}
+export async function deleteWorkout() {}
