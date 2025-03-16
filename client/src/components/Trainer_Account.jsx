@@ -4,7 +4,8 @@ import {
   assigned_Workouts,
   deleteWorkout,
 } from "../api";
-import { useState, useEffect, useNavigate } from "react";
+import {useState, useEffect, } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function T_Account({ setToken }) {
   const navigate = useNavigate();

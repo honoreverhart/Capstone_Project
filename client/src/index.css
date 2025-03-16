@@ -1,3 +1,19 @@
+body{
+  background-color: #f7ede2;
+}
+
+h1{
+ background-color: #84a59d;
+
+}
+
+h3{
+  background-color: #f6bd60;
+}
+
+p{
+  background-color: #f6bd60;
+}
 .navbar {
   display: flex;
   justify-content: center;
@@ -5,7 +21,8 @@
   width: 80%; /* 80% of the container width */
   padding: 10px 20px;
   margin: 0 auto;
-  border-radius: 5px; /* Optional: rounded corners */
+  border-radius: 5px; 
+  background-color: #f5cac3/* Optional: rounded corners */
   /* display: flex;
   justify-content: center;
   border: solid black;
@@ -20,4 +37,18 @@
 
 .navbar.logo {
   float: left;
+}
+
+/* .logo {
+background-color: #f6bd60;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+} */
+
+.button{
+  background-color: #f28482;
 }

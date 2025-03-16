@@ -13,11 +13,12 @@ export default function HomePage() {
   return (
     <div>
       <div className="navbar">
-        <h1 className="logo">EndoPeaks</h1>
-        <button onClick={() => navigate("/login")}>Sign in</button>
-        <button onClick={() => navigate("/register")}>Create an Account</button>
+        <h2 className="logo">EndoPeaks</h2>
+        <button className="button" onClick={() => navigate("/login")}>Sign in</button>
+        <button className="button" onClick={() => navigate("/register")}>Create an Account</button>
       </div>
       <h1>Welcome to Endurance Peak!</h1>
+      <img src="../pictures/circlefitness.jpg" alt="fitness"/>
       <h3>Who we are</h3>
       <p>
         Endurance Peak is a company striving to help each individual pursue and
@@ -25,7 +26,7 @@ export default function HomePage() {
         Through perseverance and endurance you can overcome these mountains!
         Join us today to conquer your fitness peaks!
         <br></br>
-        <button onClick={() => navigate("/register")}>Sign Up Today!</button>
+        <button className="button" onClick={() => navigate("/register")}>Sign Up Today!</button>
       </p>
     </div>
   );
