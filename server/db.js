@@ -99,7 +99,7 @@ const destroyWorkout = async (id) => {
 
 const assignWorkout = async (workout_id, user_id) => {
   const SQL = `
-    INSERT INTO assigned_Workouts(workout_id, user_id) VALUES($1, $2) RETURNING *
+    INSERT INTO assigned_workouts(workout_id, user_id) VALUES($1, $2) RETURNING *
     `;
   const response = await client.query(SQL, [workout_id, user_id]);
   return response.rows[0];
@@ -123,19 +123,32 @@ const authenticate = async ({ username, password }) => {
   return { token: token, user: response.rows[0] };
 };
 
-const findUserWithToken = async (token) => {
+
+
+const findUserWithToken = async(token) => {
+  let id;
   try {
     const payload = jwt.verify(
       token.replace("Bearer ", ""),
-      process.env.JWT_SECRET || "secret"
+      JWT
     );
-    console.log(payload + "Hello World");
-    return payload;
+    id = payload.id;
   } catch (ex) {
     const error = Error("not authorized");
     error.status = 401;
     throw error;
   }
+
+  const SQL =`
+    SELECT id, first_name, last_name, email, username, password FROM users WHERE id=$1
+  `;
+  const response = await client.query(SQL, [id]);
+  if(!response.rows.length){
+    const error = Error("not authorized");
+    error.status = 401;
+    throw error;
+  }
+  return response.rows[0]
 };
 
 module.exports = {

@@ -57,6 +57,23 @@ export async function getLoginToken(formData) {
   }
 }
 
+//issue
+export async function usersMe(token) {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 export async function getWorkouts() {
   try {
     const response = await fetch(`${BASE_URL}/workouts`, {
@@ -65,19 +82,13 @@ export async function getWorkouts() {
       },
     });
     const json = await response.json();
-    const result = json.users;
-    console.log(result);
+    return json;
   } catch (error) {
     console.error("Error in fetching users", error);
   }
 }
 
 export async function createWorkout(setWorkoutData) {
-  if (!setWorkoutData || !setWorkoutData.name || !setWorkoutData.description) {
-    console.error("Workout data is invalid", setWorkoutData);
-    return;
-  }
-
   try {
     const response = await fetch(`${BASE_URL}/workouts`, {
       method: "POST",
@@ -97,6 +108,25 @@ export async function createWorkout(setWorkoutData) {
   }
 }
 
+//patch instead of get?
 export async function assigned_Workouts() {}
 
-export async function deleteWorkout() {}
+
+//issue -- id?
+export async function deleteWorkout(id, token) {
+  try {
+    const response = await fetch(`${BASE_URL}/workouts/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // const result = await response.json();
+    console.log(response);
+    // return result;
+    // window.location.reload();
+  } catch (error) {
+    console.error("Unable to delete workout", error);
+  }
+}

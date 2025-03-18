@@ -30,9 +30,11 @@ app.use(
 );
 
 //middleware
-const isLoggedIn = (req, res, next) => {
+const isLoggedIn = async (req, res, next) => {
   try {
-    req.user = findUserWithToken(req.header("Authorization"));
+    const token = req.header("Authorization")
+    req.user = await findUserWithToken(token);
+    
     next();
   } catch (ex) {
     next(ex);
@@ -89,15 +91,16 @@ app.post("/api/workouts", async (req, res, next) => {
 
 app.delete("/api/workouts/:id", isLoggedIn, async (req, res, next) => {
   try {
-    res.send(await destroyWorkout({ id: req.params.id }));
+    res.send(await destroyWorkout(req.params.id));
   } catch (ex) {
     next(ex);
   }
 });
 
-app.post("/api/assigned_workouts", isLoggedIn, async (req, res, next) => {
+app.patch("/api/assigned_workouts/:workout_id/:user_id", isLoggedIn, async (req, res, next) => {
   try {
-    res.send(await assignWorkout(req.params.workout_id, req.params.user_id));
+    const {workout_id, user_id} = req.params
+    res.send(await assignWorkout(workout_id, user_id));
   } catch (ex) {
     next(ex);
   }

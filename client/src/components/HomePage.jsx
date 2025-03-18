@@ -4,12 +4,6 @@ import { useEffect } from "react";
 export default function HomePage() {
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/api/users")
-  //     .then((res) => res.json())
-  //     .then((data) => console.log(data));
-  // }, []);
-
   return (
     <div>
       <div className="navbar">

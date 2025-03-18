@@ -1,54 +1,68 @@
 body{
   background-color: #f7ede2;
+  margin: 0;
 }
 
 h1{
  background-color: #84a59d;
+ padding: 10px;
+ color: white;
+ text-align: center;
 
 }
 
-h3{
+h3, p{
   background-color: #f6bd60;
+  padding: 10px;
+  text-align: center;
+  color: white;
 }
 
-p{
-  background-color: #f6bd60;
-}
+
 .navbar {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 80%; /* 80% of the container width */
+  width: 80%; 
   padding: 10px 20px;
   margin: 0 auto;
-  border-radius: 5px; 
-  background-color: #f5cac3/* Optional: rounded corners */
-  /* display: flex;
-  justify-content: center;
+  border-radius: 10px; 
+  background-color: #f5cac3;
   border: solid black;
-  padding: 5px 10px; 
-  margin: 0 5px;  */
-  /* height: 10%;
-  max-width: 1200px;
-  width: 100%; 
-  max-width: 1200px;
-  margin: 0 auto;  */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.navbar.logo {
+.navbar.h2{
   float: left;
 }
 
-/* .logo {
-background-color: #f6bd60;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-} */
+.navbar.logo {
+  color: #333;
+  transition: color 0.3s ease;
 
-.button{
-  background-color: #f28482;
 }
+
+.logo:hover {
+  color:  #f28482;
+}
+
+
+.navbar.button{
+  background-color: #f28482;
+  padding: 8px 16px;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.navbar.button.hover{
+  background-color: #d77d6b;
+}
+
+.navbar.navbar-items{
+  display: flex;
+  gap: 15px;
+}
+
