@@ -30,12 +30,15 @@ const createTables = async () => {
         description VARCHAR(255) NOT NULL
     );
 
-    CREATE TABLE assigned_workouts(
-        workout_id INTEGER REFERENCES workouts(id) NOT NULL,
-        user_id UUID REFERENCES users(id) NOT NULL
-    );
+ 
     
     `;
+    
+//USE FOR LATER
+  //   CREATE TABLE assigned_workouts(
+  //     workout_id INTEGER REFERENCES workouts(id) NOT NULL,
+  //     user_id UUID REFERENCES users(id) NOT NULL
+  // );
 
   await client.query(SQL);
 };
@@ -95,13 +98,13 @@ const destroyWorkout = async (id) => {
   await client.query(SQL, [id]);
 };
 
-const assignWorkout = async ({user_id, workout_id}) => {
-  const SQL = `
-    INSERT INTO assigned_workouts(user_id, workout_id) VALUES($1, $2) RETURNING *
-    `;
-  const response = await client.query(SQL, [user_id, workout_id ]);
-  return response.rows[0];
-};
+// const assignWorkout = async ({user_id, workout_id}) => {
+//   const SQL = `
+//     INSERT INTO assigned_workouts(user_id, workout_id) VALUES($1, $2) RETURNING *
+//     `;
+//   const response = await client.query(SQL, [user_id, workout_id ]);
+//   return response.rows[0];
+// };
 
 const authenticate = async ({ username, password }) => {
   const SQL = `
@@ -157,7 +160,7 @@ module.exports = {
   createWorkout,
   fetchWorkout,
   destroyWorkout,
-  assignWorkout,
+  // assignWorkout,
   authenticate,
   findUserWithToken,
 };

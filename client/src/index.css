@@ -1,54 +1,79 @@
-body{
+body {
   background-color: #f7ede2;
   margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
-h1{
- background-color: #84a59d;
- padding: 10px;
- color: white;
- text-align: center;
-
+h1 {
+  font-family: Lucida Handwriting;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #84a59d;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  border-radius: 15px 50px;
+  padding: 30px;
+  width: 400px;
+  height: 150px;
+  position:  relative;
+  left: 15%;
 }
 
-h3, p{
+h3,
+p {
+  justify-content: center;
+  align-items: center;
   background-color: #f6bd60;
   padding: 10px;
   text-align: center;
   color: black;
+  border-radius: 15px 15px 50px 50px;
+  padding: 30px;
+  width: 600px;
+  height: 150px;
 }
 
+h3{
+  font-family: Lucida Handwriting;
+  border-radius: 50px 50px 15px 15px;
+  width: 600px;
+  height: 20px;
+}
 
 .navbar {
-  display: flex;
+  font-family: Lucida Handwriting;;
+  display: block;
   justify-content: space-between;
   align-items: center;
-  width: 80%; 
+  width: 100%;
   padding: 10px 20px;
   margin: 0 auto;
-  border-radius: 10px; 
+  border-radius: 10px;
   background-color: #f5cac3;
   border: solid black;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
-.navbar.h2{
+.navbar.h2 {
   float: left;
 }
 
 .navbar.logo {
   color: #333;
   transition: color 0.3s ease;
-
 }
 
 .logo:hover {
-  color:  #f28482;
+  color: #f28482;
 }
 
-
-.navbar.button{
+.navbar.button {
   background-color: #f28482;
   padding: 8px 16px;
   border-radius: 5px;
@@ -57,11 +82,11 @@ h3, p{
   transition: background-color 0.3s ease;
 }
 
-.navbar.button.hover{
+.navbar.button.hover {
   background-color: #d77d6b;
 }
 
-.navbar.navbar-items{
+.navbar.navbar-items {
   display: flex;
   gap: 15px;
 }
@@ -94,7 +119,7 @@ display: block;
 }
 
 .dropdown_btn {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   padding: 16px;
   font-size: 16px;

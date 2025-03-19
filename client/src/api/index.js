@@ -108,32 +108,32 @@ export async function createWorkout(setWorkoutData) {
   }
 }
 
-export async function assigned_Workouts(token, user_id, workout_id) {
-  try {
-    const response = await fetch(`${BASE_URL}/assigned_workouts`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        workout_id,
-        user_id
-      })
+// export async function assigned_Workouts(token, user_id, workout_id) {
+//   try {
+//     const response = await fetch(`${BASE_URL}/assigned_workouts`, {
+//       method: "PATCH",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({
+//         workout_id,
+//         user_id
+//       })
 
-    })
-    if(response.ok){
-      const result = await response.json();
-      console.log("Workout Assigned successfully!", result);
-      return result;
-    }else {
-      console.error('Failed to assign workout:', response.status);
-    }
+//     })
+//     if(response.ok){
+//       const result = await response.json();
+//       console.log("Workout Assigned successfully!", result);
+//       return result;
+//     }else {
+//       console.error('Failed to assign workout:', response.status);
+//     }
     
-  } catch (error) {
-    console.error("Oops! There was an error", error);
-  }
-}
+//   } catch (error) {
+//     console.error("Oops! There was an error", error);
+//   }
+// }
 
 export async function deleteWorkout(id, token) {
   try {

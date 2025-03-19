@@ -2,12 +2,12 @@ import {
   getUsers,
   getWorkouts,
   createWorkout,
-  assigned_Workouts,
+  // assigned_Workouts,
   deleteWorkout,
   usersMe,
 } from "../api";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, useViewTransitionState } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 export default function T_Account({ token, setToken }) {
   const navigate = useNavigate();
@@ -96,9 +96,9 @@ export default function T_Account({ token, setToken }) {
     setWorkoutData(newState);
   };
 
-  const assignWorkout = async (workout_id, user_id) => {
-    await assigned_Workouts(token, workout_id, user_id);
-  };
+  // const assignWorkout = async (workout_id, user_id) => {
+  //   await assigned_Workouts(token, workout_id, user_id);
+  // };
 
   const toggleInfo = () => {
     setIsOpen(!isOpen);
@@ -194,13 +194,13 @@ export default function T_Account({ token, setToken }) {
                 <p>
                   <strong>Description:</strong> {workout.description}
                 </p>
-                <button
+                {/* <button
                   onClick={() =>
                     assignWorkout(workout.workout_id, userDetails.id)
                   }
                 >
                   Assign Workout
-                </button>
+                </button> */}
                 <button onClick={() => handleDelete(workout.id)}>
                   Delete Workout
                 </button>
