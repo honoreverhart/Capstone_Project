@@ -21,9 +21,7 @@ app.get("/", (req, res) =>
     path.join(__dirname, "../client/Capstone_Project/dist/index.html")
   )
 );
-app.use(
-  cors()
-)
+app.use(cors());
 app.use(
   "/assets",
   express.static(path.join(__dirname, "../client/Capstone_Project/dist/assets"))
@@ -32,9 +30,9 @@ app.use(
 //middleware
 const isLoggedIn = async (req, res, next) => {
   try {
-    const token = req.header("Authorization")
+    const token = req.header("Authorization");
     req.user = await findUserWithToken(token);
-    
+
     next();
   } catch (ex) {
     next(ex);
@@ -83,7 +81,12 @@ app.get("/api/workouts", async (req, res, next) => {
 
 app.post("/api/workouts", async (req, res, next) => {
   try {
-    res.send(await createWorkout({name: req.body.name, description: req.body.description}));
+    res.send(
+      await createWorkout({
+        name: req.body.name,
+        description: req.body.description,
+      })
+    );
   } catch (ex) {
     next(ex);
   }
@@ -97,11 +100,19 @@ app.delete("/api/workouts/:id", isLoggedIn, async (req, res, next) => {
   }
 });
 
-app.patch("/api/assigned_workouts/:workout_id/:user_id", isLoggedIn, async (req, res, next) => {
+app.patch("/api/assigned_workouts", isLoggedIn, async (req, res, next) => {
   try {
-    const {workout_id, user_id} = req.params
-    res.send(await assignWorkout(workout_id, user_id));
+    const { workout_id, user_id } = req.body;
+    if (req.user.role !== "trainer") {
+      return res
+        .status(403)
+        .send("Only trainers are permitted to assign workouts");
+    }
+   const result = await assignWorkout(workout_id, user_id);
+   console.log(result)
+    res.status(200).send(result);
   } catch (ex) {
+    console.error("failed to patch")
     next(ex);
   }
 });

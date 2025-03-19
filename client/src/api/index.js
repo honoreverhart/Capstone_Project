@@ -1,6 +1,6 @@
 const BASE_URL = "http://localhost:3000/api";
 
-export default async function getUsers() {
+export async function getUsers() {
   try {
     const response = await fetch(`${BASE_URL}/users`, {
       headers: {
@@ -8,8 +8,8 @@ export default async function getUsers() {
       },
     });
     const json = await response.json();
-    const result = json.users;
-    console.log(result);
+    return json;
+
   } catch (error) {
     console.error("Error in fetching users", error);
   }
@@ -28,6 +28,7 @@ export async function getRegisterToken(formData) {
         email: formData.email,
         username: formData.username,
         password: formData.password,
+        workouts: formData.workouts,
         role: formData.role,
       }),
     });
@@ -57,7 +58,6 @@ export async function getLoginToken(formData) {
   }
 }
 
-//issue
 export async function usersMe(token) {
   try {
     const response = await fetch(`${BASE_URL}/auth/me`, {
@@ -108,11 +108,33 @@ export async function createWorkout(setWorkoutData) {
   }
 }
 
-//patch instead of get?
-export async function assigned_Workouts() {}
+export async function assigned_Workouts(token, user_id, workout_id) {
+  try {
+    const response = await fetch(`${BASE_URL}/assigned_workouts`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        workout_id,
+        user_id
+      })
 
+    })
+    if(response.ok){
+      const result = await response.json();
+      console.log("Workout Assigned successfully!", result);
+      return result;
+    }else {
+      console.error('Failed to assign workout:', response.status);
+    }
+    
+  } catch (error) {
+    console.error("Oops! There was an error", error);
+  }
+}
 
-//issue -- id?
 export async function deleteWorkout(id, token) {
   try {
     const response = await fetch(`${BASE_URL}/workouts/${id}`, {
@@ -122,10 +144,6 @@ export async function deleteWorkout(id, token) {
         Authorization: `Bearer ${token}`,
       },
     });
-    // const result = await response.json();
-    console.log(response);
-    // return result;
-    // window.location.reload();
   } catch (error) {
     console.error("Unable to delete workout", error);
   }

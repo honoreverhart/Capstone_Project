@@ -1,43 +1,66 @@
 import {
+  getUsers,
   getWorkouts,
   createWorkout,
   assigned_Workouts,
   deleteWorkout,
   usersMe,
 } from "../api";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useViewTransitionState } from "react-router-dom";
 
 export default function T_Account({ token, setToken }) {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState([
+    {
+      first_name: "",
+      last_name: "",
+      role: "",
+    },
+  ]);
   const [userDetails, setUserDetails] = useState({
     first_name: "",
     last_name: "",
     email: "",
     username: "",
     password: "",
+    role: "",
   });
   const [workout, setWorkout] = useState({
     name: "",
     description: "",
   });
   const [workoutData, setWorkoutData] = useState([]);
-
-  async function getUserDetails() {
-    const userInfo = await usersMe(token);
-    if (userInfo) {
-      setUserDetails(userInfo);
-    }
-  }
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
 
   useEffect(() => {
+    const getUserData = async () => {
+      const user = await getUsers();
+      setUserData(user);
+    };
+
+    getUserData();
+  }, []);
+
+  useEffect(() => {
+    if (!token) {
+      token = localStorage.getItem("token");
+    }
+    const getUserDetails = async () => {
+      const userInfo = await usersMe(token);
+      if (userInfo) {
+        setUserDetails(userInfo);
+      }
+    };
+
     getUserDetails();
-  });
+  }, []);
 
   useEffect(() => {
     const getData = async () => {
       const workout_data = await getWorkouts();
-      console.log(workout_data);
       setWorkoutData(workout_data);
     };
 
@@ -73,16 +96,68 @@ export default function T_Account({ token, setToken }) {
     setWorkoutData(newState);
   };
 
+  const assignWorkout = async (workout_id, user_id) => {
+    await assigned_Workouts(token, workout_id, user_id);
+  };
+
+  const toggleInfo = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const clickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+      document.addEventListener("click", clickOutside);
+      return () => {
+        document.removeEventListener("click", clickOutside);
+      };
+    };
+  }, []);
   return (
     <>
       <div>
         <h1>
           Welcome {userDetails.first_name} {userDetails.last_name}!!
         </h1>
-        <p>Trainer :)</p>
+
+        <h3>Your information:</h3>
+        <div className="dropdown">
+          <button ref={buttonRef} className="dropdown_btn" onClick={toggleInfo}>
+            Show Info
+          </button>
+          {isOpen && (
+            <div ref={dropdownRef} className="dropdown_info">
+              <a>Role: {userDetails.role}</a>
+              <a>Email: {userDetails.email}</a>
+              <a>Username: {userDetails.username}</a>
+            </div>
+          )}
+        </div>
+
         <button className="button" onClick={handleSignOut}>
           Sign-Out
         </button>
+
+        <h3>Clients:</h3>
+        {userData && userDetails.role === "trainer"
+          ? userData.map((users) => {
+              if (users.role == "client") {
+                return (
+                  <div className="client_list" key={users.id}>
+                    <p>
+                      {users.first_name} {users.last_name}
+                    </p>
+                  </div>
+                );
+              }
+            })
+          : null}
 
         <form className="createWorkout" onSubmit={handleSubmit}>
           <label>
@@ -107,31 +182,32 @@ export default function T_Account({ token, setToken }) {
           </label>
           <button>Create Workout</button>
         </form>
-        <h3>Workout Created:</h3>
-        {workoutData.map((workout) => {
-          return (
-            <div className="workoutCard" key={workout.id}>
-              <p>
-                <strong>Name:</strong> {workout.name}
-              </p>
-              <p>
-                <strong>Description:</strong> {workout.description}
-              </p>
-              <button onClick={() => handleDelete(workout.id)}>
-                Delete Workout
-              </button>
-            </div>
-          );
-        })}
+
+        <h3>Workouts:</h3>
+        {workoutData &&
+          workoutData.map((workout) => {
+            return (
+              <div className="workoutCard" key={workout.id}>
+                <p>
+                  <strong>Name:</strong> {workout.name}
+                </p>
+                <p>
+                  <strong>Description:</strong> {workout.description}
+                </p>
+                <button
+                  onClick={() =>
+                    assignWorkout(workout.workout_id, userDetails.id)
+                  }
+                >
+                  Assign Workout
+                </button>
+                <button onClick={() => handleDelete(workout.id)}>
+                  Delete Workout
+                </button>
+              </div>
+            );
+          })}
       </div>
     </>
   );
 }
-
-//their information
-//present a list of their clients
-//a list of workouts CHECK
-//option to create workouts CHECK
-//option to delete workouts CHECK
-//assign workouts to each client
-//search bar for clients and workouts

@@ -15,7 +15,7 @@ h3, p{
   background-color: #f6bd60;
   padding: 10px;
   text-align: center;
-  color: white;
+  color: black;
 }
 
 
@@ -66,3 +66,60 @@ h3, p{
   gap: 15px;
 }
 
+/* .dropdown{
+  display: inline-block;
+}
+
+.dropdown_info{
+  background-color: #84a59d;
+  display: none;
+  position: absolute;
+}
+
+.dropdown_info a{
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown_btn{
+background-color: #f6bd60;
+display: block;
+} */
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown_btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown_info {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown_info.show {
+  display: block;
+}
+
+.dropdown_info a {
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.dropdown_info a:hover {
+  background-color: #ddd;
+}

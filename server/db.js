@@ -35,8 +35,6 @@ const createTables = async () => {
         user_id UUID REFERENCES users(id) NOT NULL
     );
     
-
-
     `;
 
   await client.query(SQL);
@@ -68,7 +66,7 @@ return {user: response.rows[0], token: authResponse.token }
 
 const fetchUser = async () => {
   const SQL = `
-    SELECT id, username FROM users;
+    SELECT id, username, first_name, last_name, role FROM users;
     `;
   const response = await client.query(SQL);
   return response.rows;
@@ -97,11 +95,11 @@ const destroyWorkout = async (id) => {
   await client.query(SQL, [id]);
 };
 
-const assignWorkout = async (workout_id, user_id) => {
+const assignWorkout = async ({user_id, workout_id}) => {
   const SQL = `
-    INSERT INTO assigned_workouts(workout_id, user_id) VALUES($1, $2) RETURNING *
+    INSERT INTO assigned_workouts(user_id, workout_id) VALUES($1, $2) RETURNING *
     `;
-  const response = await client.query(SQL, [workout_id, user_id]);
+  const response = await client.query(SQL, [user_id, workout_id ]);
   return response.rows[0];
 };
 
@@ -140,7 +138,7 @@ const findUserWithToken = async(token) => {
   }
 
   const SQL =`
-    SELECT id, first_name, last_name, email, username, password FROM users WHERE id=$1
+    SELECT id, first_name, last_name, email, username, password, role FROM users WHERE id=$1
   `;
   const response = await client.query(SQL, [id]);
   if(!response.rows.length){
