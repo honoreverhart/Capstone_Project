@@ -2,12 +2,12 @@ import {
   getUsers,
   getWorkouts,
   createWorkout,
-  // assigned_Workouts,
+  editWorkouts,
   deleteWorkout,
   usersMe,
 } from "../api";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function T_Account({ token, setToken }) {
   const navigate = useNavigate();
@@ -31,32 +31,42 @@ export default function T_Account({ token, setToken }) {
     description: "",
   });
   const [workoutData, setWorkoutData] = useState([]);
+  const [searchParam, setSearchParam] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
   useEffect(() => {
-    const getUserData = async () => {
-      const user = await getUsers();
-      setUserData(user);
-    };
+    try {
+      const getUserData = async () => {
+        const user = await getUsers();
+        setUserData(user);
+      };
 
-    getUserData();
+      getUserData();
+    } catch (error) {
+      console.log("Trouble getting everyone's public information", error);
+    }
   }, []);
 
   useEffect(() => {
-    if (!token) {
-      token = localStorage.getItem("token");
-    }
-    const getUserDetails = async () => {
-      const userInfo = await usersMe(token);
-      if (userInfo) {
-        setUserDetails(userInfo);
+    try {
+      if (!token) {
+        token = localStorage.getItem("token");
+        setToken(token);
       }
-    };
+      const getUserDetails = async () => {
+        const userInfo = await usersMe(token);
+        if (userInfo) {
+          setUserDetails(userInfo);
+        }
+      };
 
-    getUserDetails();
-  }, []);
+      getUserDetails();
+    } catch (error) {
+      console.log("trouble getting private user information", error);
+    }
+  }, [token]);
 
   useEffect(() => {
     const getData = async () => {
@@ -96,12 +106,25 @@ export default function T_Account({ token, setToken }) {
     setWorkoutData(newState);
   };
 
-  // const assignWorkout = async (workout_id, user_id) => {
-  //   await assigned_Workouts(token, workout_id, user_id);
-  // };
+  const edit_workout = async (workout_id, user_id) => {
+    await editWorkouts(token, workout_id, user_id);
+  };
+
+  const searchClient = searchParam
+    ? userData.filter(
+        (client) =>
+          client.first_name &&
+          client.first_name
+            .toLowerCase()
+            .startsWith(searchParam.toLowerCase()) ||
+          client.last_name &&
+          client.last_name.toLowerCase().startsWith(searchParam.toLowerCase())
+      )
+    : userData;
 
   const toggleInfo = () => {
     setIsOpen(!isOpen);
+    console.log("hello", isOpen);
   };
 
   useEffect(() => {
@@ -113,12 +136,17 @@ export default function T_Account({ token, setToken }) {
       ) {
         setIsOpen(false);
       }
-      document.addEventListener("click", clickOutside);
-      return () => {
-        document.removeEventListener("click", clickOutside);
-      };
     };
-  }, []);
+    if (isOpen) {
+      document.addEventListener("click", clickOutside);
+    } else {
+      document.addEventListener("click", clickOutside);
+    }
+    return () => {
+      document.removeEventListener("click", clickOutside);
+    };
+  }, [isOpen]);
+
   return (
     <>
       <div>
@@ -129,7 +157,7 @@ export default function T_Account({ token, setToken }) {
         <h3>Your information:</h3>
         <div className="dropdown">
           <button ref={buttonRef} className="dropdown_btn" onClick={toggleInfo}>
-            Show Info
+            {isOpen ? "Show Info" : "hide info"}
           </button>
           {isOpen && (
             <div ref={dropdownRef} className="dropdown_info">
@@ -143,10 +171,17 @@ export default function T_Account({ token, setToken }) {
         <button className="button" onClick={handleSignOut}>
           Sign-Out
         </button>
-
+        <label className="search">
+          Search for Client:{" "}
+          <input
+            type="text"
+            placeholder="search"
+            onChange={(e) => setSearchParam(e.target.value.toLowerCase())}
+          />
+        </label>
         <h3>Clients:</h3>
         {userData && userDetails.role === "trainer"
-          ? userData.map((users) => {
+          ? searchClient.map((users) => {
               if (users.role == "client") {
                 return (
                   <div className="client_list" key={users.id}>
@@ -194,13 +229,11 @@ export default function T_Account({ token, setToken }) {
                 <p>
                   <strong>Description:</strong> {workout.description}
                 </p>
-                {/* <button
-                  onClick={() =>
-                    assignWorkout(workout.workout_id, userDetails.id)
-                  }
+                <button
+                  onClick={() => edit_workout(workout.id, userDetails.id)}
                 >
-                  Assign Workout
-                </button> */}
+                  Edit Workout
+                </button>
                 <button onClick={() => handleDelete(workout.id)}>
                   Delete Workout
                 </button>

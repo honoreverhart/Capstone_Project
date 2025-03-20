@@ -6,7 +6,7 @@ const {
   createWorkout,
   fetchWorkout,
   destroyWorkout,
-  // assignWorkout,
+  editWorkout,
   authenticate,
   findUserWithToken,
 } = require("./db");
@@ -100,22 +100,22 @@ app.delete("/api/workouts/:id", isLoggedIn, async (req, res, next) => {
   }
 });
 
-// app.patch("/api/assigned_workouts", isLoggedIn, async (req, res, next) => {
-//   try {
-//     const { workout_id, user_id } = req.body;
-//     if (req.user.role !== "trainer") {
-//       return res
-//         .status(403)
-//         .send("Only trainers are permitted to assign workouts");
-//     }
-//    const result = await assignWorkout(workout_id, user_id);
-//    console.log(result)
-//     res.status(200).send(result);
-//   } catch (ex) {
-//     console.error("failed to patch")
-//     next(ex);
-//   }
-// });
+app.patch("/api/edit_workout", isLoggedIn, async (req, res, next) => {
+  try {
+    const { workout_id, user_id } = req.body;
+    if (req.user.role !== "trainer") {
+      return res
+        .status(403)
+        .send("Only trainers are permitted to edit workouts");
+    }
+   const result = await editWorkout({workout_id, user_id});
+   console.log(result)
+    res.status(200).send(result);
+  } catch (ex) {
+    console.error("failed to patch: ", ex)
+    next(ex);
+  }
+});
 
 app.use((err, req, res, next) => {
   console.log(err);

@@ -18,6 +18,7 @@ export default function C_Account({ token, setToken }) {
     username: "",
     password: "",
   });
+  const [searchParam, setSearchParam] = useState("");
 
   useEffect(() => {
     const getUserData = async () => {
@@ -48,6 +49,19 @@ export default function C_Account({ token, setToken }) {
     localStorage.removeItem("token");
   };
 
+  const searchTrainer = searchParam
+    ? userData.filter(
+        (trainer) =>
+          (trainer.first_name &&
+            trainer.first_name
+              .toLowerCase()
+              .startsWith(searchParam.toLowerCase())) ||
+          (trainer.last_name &&
+            trainer.last_name
+              .toLowerCase()
+              .startsWith(searchParam.toLowerCase()))
+      )
+    : userData;
   return (
     <>
       <div>
@@ -63,9 +77,26 @@ export default function C_Account({ token, setToken }) {
           <p>Username: {userDetails.username}</p>
         </div>
 
+        <div>
+          <label className="search">
+            Search for Trainer:{" "}
+            <input
+              type="text"
+              placeholder="search"
+              onChange={(e) => setSearchParam(e.target.value.toLowerCase())}
+            />
+          </label>
+        </div>
+        {/* <div className="allTrainers">
+        {searchTrainer.map((trainer) => {
+          return (
+            {}
+          );
+        })}
+      </div> */}
         <h3>Trainers:</h3>
         {userData && userDetails.role === "client"
-          ? userData.map((users) => {
+          ? searchTrainer.map((users) => {
               if (users.role == "trainer") {
                 return (
                   <div className="client_list" key={users.id}>

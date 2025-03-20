@@ -12,7 +12,7 @@ export default function HomePage() {
         <button className="button" onClick={() => navigate("/register")}>Create an Account</button>
       </div>
       <h1>Welcome to Endurance Peak!</h1>
-      <img src="../pictures/circlefitness.jpg" alt="fitness"/>
+      <img src="/pictures/circlefitness.jpg" alt="fitness"/>
       <h3>Who we are</h3>
       <p>
         Endurance Peak is a company striving to help each individual pursue and

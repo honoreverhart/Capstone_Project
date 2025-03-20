@@ -29,16 +29,12 @@ const createTables = async () => {
         name VARCHAR(255) NOT NULL,
         description VARCHAR(255) NOT NULL
     );
-
- 
+   CREATE TABLE editWorkouts(
+        user_id UUID REFERENCES users(id) NOT NULL
+        workout_id INTEGER REFERENCES workouts(id) NOT NULL,
+  );
     
     `;
-    
-//USE FOR LATER
-  //   CREATE TABLE assigned_workouts(
-  //     workout_id INTEGER REFERENCES workouts(id) NOT NULL,
-  //     user_id UUID REFERENCES users(id) NOT NULL
-  // );
 
   await client.query(SQL);
 };
@@ -63,8 +59,8 @@ const createUser = async ({
     await bcrypt.hash(password, 5),
     role,
   ]);
-  const authResponse = await authenticate({username, password});
-return {user: response.rows[0], token: authResponse.token }
+  const authResponse = await authenticate({ username, password });
+  return { user: response.rows[0], token: authResponse.token };
 };
 
 const fetchUser = async () => {
@@ -98,13 +94,14 @@ const destroyWorkout = async (id) => {
   await client.query(SQL, [id]);
 };
 
-// const assignWorkout = async ({user_id, workout_id}) => {
-//   const SQL = `
-//     INSERT INTO assigned_workouts(user_id, workout_id) VALUES($1, $2) RETURNING *
-//     `;
-//   const response = await client.query(SQL, [user_id, workout_id ]);
-//   return response.rows[0];
-// };
+const editWorkout = async ({ user_id, workout_id}) => {
+  const SQL = `
+    INSERT INTO editWorkouts(user_id, workout_id) VALUES($1, $2) RETURNING *
+    `;
+    console.log(user_id, workout_id)
+  const response = await client.query(SQL, [user_id, workout_id]);
+  return response.rows[0];
+};
 
 const authenticate = async ({ username, password }) => {
   const SQL = `
@@ -124,15 +121,10 @@ const authenticate = async ({ username, password }) => {
   return { token: token, user: response.rows[0] };
 };
 
-
-
-const findUserWithToken = async(token) => {
+const findUserWithToken = async (token) => {
   let id;
   try {
-    const payload = jwt.verify(
-      token.replace("Bearer ", ""),
-      JWT
-    );
+    const payload = jwt.verify(token.replace("Bearer ", ""), JWT);
     id = payload.id;
   } catch (ex) {
     const error = Error("not authorized");
@@ -140,16 +132,16 @@ const findUserWithToken = async(token) => {
     throw error;
   }
 
-  const SQL =`
+  const SQL = `
     SELECT id, first_name, last_name, email, username, password, role FROM users WHERE id=$1
   `;
   const response = await client.query(SQL, [id]);
-  if(!response.rows.length){
+  if (!response.rows.length) {
     const error = Error("not authorized");
     error.status = 401;
     throw error;
   }
-  return response.rows[0]
+  return response.rows[0];
 };
 
 module.exports = {
@@ -160,7 +152,7 @@ module.exports = {
   createWorkout,
   fetchWorkout,
   destroyWorkout,
-  // assignWorkout,
+  editWorkout,
   authenticate,
   findUserWithToken,
 };
