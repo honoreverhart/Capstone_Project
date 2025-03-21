@@ -5,6 +5,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100%;
+  flex-direction: column;
 }
 
 h1 {
@@ -20,7 +21,7 @@ h1 {
   padding: 30px;
   width: 400px;
   height: 150px;
-  position:  relative;
+  position: relative;
   left: 15%;
 }
 
@@ -38,14 +39,14 @@ p {
   height: 150px;
 }
 
-h3{
+h3 {
   font-family: Lucida Handwriting;
   border-radius: 50px 50px 15px 15px;
   width: 600px;
   height: 20px;
 }
 @media (max-width: 768px) {
-  h1{
+  h1 {
     width: 80%;
     height: auto;
     font-size: 1.2em;
@@ -58,12 +59,10 @@ h3{
     padding: 20px;
     height: auto;
   }
-
-
 }
 
 .navbar {
-  font-family: Lucida Handwriting;;
+  font-family: Lucida Handwriting;
   display: block;
   justify-content: space-between;
   align-items: center;
@@ -124,8 +123,10 @@ h3{
   }
 }
 
-.info{
+.info {
   background-color: #f5cac3;
+  justify-content: center;
+  align-items: center;
   display: block;
   padding: 10px;
   width: 40%;
@@ -133,43 +134,40 @@ h3{
   border-radius: 15px;
 }
 
-.piece1{
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 30px solid rgb(45, 45, 75);
-    position:  relative;
-    left: -87px;
-    top: 15px;
-    z-index: 2;
-    
-    
+.piece1 {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid rgb(45, 45, 75);
+  position: relative;
+  left: -87px;
+  top: 15px;
+  z-index: 2;
 }
 
-.piece2{
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 30px solid rgb(94, 94, 165);
-    position: relative;
-    left: -100px;
-    top: 15px;
-    z-index: 1;
+.piece2 {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid rgb(94, 94, 165);
+  position: relative;
+  left: -100px;
+  top: 15px;
+  z-index: 1;
 }
 
-.piece3{
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 30px solid rgb(45, 45, 75);
-    position:  relative;
-    left:-115px;
-    top: 15px;
-    z-index: 1;
-    
+.piece3 {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 30px solid rgb(45, 45, 75);
+  position: relative;
+  left: -115px;
+  top: 15px;
+  z-index: 1;
 }
 
 @media (max-width: 768px) {
@@ -193,14 +191,63 @@ h3{
   }
 }
 
-
-.list{
+.list {
   border: solid black;
   box-shadow: solid black 50px;
   border-radius: 15px 50px;
-
 }
 
-.search{
-  
+.search {
+}
+
+.button {
+  padding: 20px;
+  width: 40%;
+}
+
+.workout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.workoutCard {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: #d77d6b;
+  box-shadow: solid 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: solid 1px #333;
+  width: 45%;
+  height: 200px;
+  border-radius: 15px;
+}
+
+.workoutCard:hover {
+  background-color: #f28482;
+}
+
+.workoutCard.button-container {
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .workout {
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+  }
+
+  .workoutCard {
+    width: 100%;
+  }
 }

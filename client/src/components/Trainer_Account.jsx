@@ -211,24 +211,29 @@ export default function T_Account({ token, setToken }) {
         {workoutData &&
           workoutData.map((workout) => {
             return (
-              <div className="workoutCard" key={workout.id}>
-                <p>
+              <div className="workout" key={workout.id}>
+                <a className="workoutCard">
                   <strong>Name:</strong> {workout.name}
-                </p>
-                <p>
+                  <br></br>
                   <strong>Description:</strong> {workout.description}
-                </p>
-                <button
-                  onClick={() =>
-                    allowEditWorkout(workout.id, workout.name, workout.description)
-                  }
-                >
-                  Edit Workout
-                </button>
-                <br></br>
-                <button onClick={() => handleDelete(workout.id)}>
-                  Delete Workout
-                </button>
+                  <div cassName="button-container">
+                    <button
+                      onClick={() =>
+                        allowEditWorkout(
+                          workout.id,
+                          workout.name,
+                          workout.description
+                        )
+                      }
+                    >
+                      Edit Workout
+                    </button>
+                    <br></br>
+                    <button onClick={() => handleDelete(workout.id)}>
+                      Delete Workout
+                    </button>
+                  </div>
+                </a>
               </div>
             );
           })}
@@ -237,7 +242,13 @@ export default function T_Account({ token, setToken }) {
         <div>
           <form
             className="login"
-            onSubmit={() => handle_Edit_workout(editWorkout.id, editWorkout.name, editWorkout.description )}
+            onSubmit={() =>
+              handle_Edit_workout(
+                editWorkout.id,
+                editWorkout.name,
+                editWorkout.description
+              )
+            }
           >
             <label>
               Name:{" "}

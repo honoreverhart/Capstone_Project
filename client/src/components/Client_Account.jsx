@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { usersMe, getUsers } from "../api";
+import { usersMe, getUsers, getWorkouts } from "../api";
 import { useState, useEffect } from "react";
 
 export default function C_Account({ token, setToken }) {
@@ -19,6 +19,7 @@ export default function C_Account({ token, setToken }) {
     password: "",
   });
   const [searchParam, setSearchParam] = useState("");
+  const [workoutData, setWorkoutData] = useState([]);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -27,6 +28,15 @@ export default function C_Account({ token, setToken }) {
     };
 
     getUserData();
+  }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      const workout_data = await getWorkouts();
+      setWorkoutData(workout_data);
+    };
+
+    getData();
   }, []);
 
   useEffect(() => {
@@ -59,7 +69,7 @@ export default function C_Account({ token, setToken }) {
           (trainer.last_name &&
             trainer.last_name
               .toLowerCase()
-              .startsWith(searchParam.toLowerCase())) 
+              .startsWith(searchParam.toLowerCase()))
       )
     : userData;
   return (
@@ -75,6 +85,9 @@ export default function C_Account({ token, setToken }) {
           <br></br>
           <a>Username: {userDetails.username}</a>
         </div>
+        <button className="button" onClick={handleSignOut}>
+          Sign-Out
+        </button>
 
         <div>
           <label className="search">
@@ -102,9 +115,19 @@ export default function C_Account({ token, setToken }) {
               })
             : null}
         </div>
-        <button className="button" onClick={handleSignOut}>
-          Sign-Out
-        </button>
+        <h3>Workouts:</h3>
+        {workoutData &&
+          workoutData.map((workout) => {
+            return (
+              <div className="workout" key={workout.id}>
+                <a className="workoutCard">
+                  <strong>Name:</strong> {workout.name}
+                  <br></br>
+                  <strong>Description:</strong> {workout.description}
+                </a>
+              </div>
+            );
+          })}
       </div>
     </>
   );
