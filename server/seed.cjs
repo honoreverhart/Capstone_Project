@@ -69,5 +69,4 @@ async function builtdb() {
     throw error;
   }
 }
-// builtdb().then(()=> console.log("running")).catch(console.error).finally(()=> client.end());
 builtdb();

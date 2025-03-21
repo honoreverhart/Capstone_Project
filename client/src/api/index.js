@@ -9,7 +9,6 @@ export async function getUsers() {
     });
     const json = await response.json();
     return json;
-
   } catch (error) {
     console.error("Error in fetching users", error);
   }
@@ -101,16 +100,13 @@ export async function createWorkout(setWorkoutData) {
       }),
     });
     const result = await response.json();
-    console.log(result);
     return result;
   } catch (error) {
     console.error("Error in fetching users", error);
   }
 }
 
-
-
-export async function editWorkouts(token, user_id, workout_id) {
+export async function editWorkouts(id, token, name, description) {
   try {
     const response = await fetch(`${BASE_URL}/edit_workout`, {
       method: "PATCH",
@@ -119,19 +115,17 @@ export async function editWorkouts(token, user_id, workout_id) {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        workout_id,
-        user_id,
-      })
-
-    })
-    if(response.ok){
+        id,
+        name,
+        description,
+      }),
+    });
+    if (response.ok) {
       const result = await response.json();
-      console.log("Workout edited successfully!", result);
       return result;
-    }else {
-      console.error('Failed to edit workout:', response.status);
+    } else {
+      console.error("Failed to edit workout:", response.status);
     }
-    
   } catch (error) {
     console.error("Oops! There was an error", error);
   }

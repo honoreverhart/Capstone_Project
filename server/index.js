@@ -30,8 +30,17 @@ app.use(
 //middleware
 const isLoggedIn = async (req, res, next) => {
   try {
-    const token = req.header("Authorization");
-    req.user = await findUserWithToken(token);
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+    if (!token) {
+      return res.status(401).send("Token is required");
+    }
+
+    const user = await findUserWithToken(token);
+    if (!user) {
+      return res.status(401).send("Invalid token or user not found");
+    }
+
+    req.user = user;
 
     next();
   } catch (ex) {
@@ -102,17 +111,22 @@ app.delete("/api/workouts/:id", isLoggedIn, async (req, res, next) => {
 
 app.patch("/api/edit_workout", isLoggedIn, async (req, res, next) => {
   try {
-    const { workout_id, user_id } = req.body;
+    const { id, name, description } = req.body;
+    if (!id || !name || !description) {
+      return res
+        .status(400)
+        .send("Missing required fields: id, name, description");
+    }
+
     if (req.user.role !== "trainer") {
       return res
         .status(403)
         .send("Only trainers are permitted to edit workouts");
     }
-   const result = await editWorkout({workout_id, user_id});
-   console.log(result)
+    const result = await editWorkout({ id, name, description });
     res.status(200).send(result);
   } catch (ex) {
-    console.error("failed to patch: ", ex)
+    console.error("failed to patch: ", ex);
     next(ex);
   }
 });

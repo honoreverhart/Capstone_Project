@@ -6,7 +6,7 @@ import {
   deleteWorkout,
   usersMe,
 } from "../api";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function T_Account({ token, setToken }) {
@@ -32,9 +32,12 @@ export default function T_Account({ token, setToken }) {
   });
   const [workoutData, setWorkoutData] = useState([]);
   const [searchParam, setSearchParam] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
-  const buttonRef = useRef(null);
+  const [editWorkout, setEditWorkout] = useState({
+    id: "",
+    name: "",
+    description: "",
+  });
+  const [isEditingWorkout, setIsEditingWorkout] = useState(false);
 
   useEffect(() => {
     try {
@@ -85,6 +88,14 @@ export default function T_Account({ token, setToken }) {
     }));
   };
 
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditWorkout((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const create_workout = await createWorkout(workout);
@@ -102,50 +113,35 @@ export default function T_Account({ token, setToken }) {
   const handleDelete = async (id) => {
     await deleteWorkout(id, token);
     const newState = workoutData.filter((workout) => workout.id !== id);
-    console.log("new state" + newState);
     setWorkoutData(newState);
   };
 
-  const edit_workout = async (workout_id, user_id) => {
-    await editWorkouts(token, workout_id, user_id);
+  const handle_Edit_workout = async (id, name, description) => {
+    await editWorkouts(id, token, name, description);
+  };
+
+  const allowEditWorkout = (id, name, description) => {
+    setEditWorkout({
+      id,
+      name,
+      description,
+    });
+    setIsEditingWorkout(true);
   };
 
   const searchClient = searchParam
     ? userData.filter(
         (client) =>
-          client.first_name &&
-          client.first_name
-            .toLowerCase()
-            .startsWith(searchParam.toLowerCase()) ||
-          client.last_name &&
-          client.last_name.toLowerCase().startsWith(searchParam.toLowerCase())
+          (client.first_name &&
+            client.first_name
+              .toLowerCase()
+              .startsWith(searchParam.toLowerCase())) ||
+          (client.last_name &&
+            client.last_name
+              .toLowerCase()
+              .startsWith(searchParam.toLowerCase()))
       )
     : userData;
-
-  const toggleInfo = () => {
-    setIsOpen(!isOpen);
-    console.log("hello", isOpen);
-  };
-
-  useEffect(() => {
-    const clickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
-        !buttonRef.current.contains(event.target)
-      ) {
-        setIsOpen(false);
-      }
-    };
-    if (isOpen) {
-      document.addEventListener("click", clickOutside);
-    } else {
-      document.addEventListener("click", clickOutside);
-    }
-    return () => {
-      document.removeEventListener("click", clickOutside);
-    };
-  }, [isOpen]);
 
   return (
     <>
@@ -154,21 +150,14 @@ export default function T_Account({ token, setToken }) {
           Welcome {userDetails.first_name} {userDetails.last_name}!!
         </h1>
 
-        <h3>Your information:</h3>
-        <div className="dropdown">
-          <button ref={buttonRef} className="dropdown_btn" onClick={toggleInfo}>
-            {isOpen ? "Show Info" : "hide info"}
-          </button>
-          {isOpen && (
-            <div ref={dropdownRef} className="dropdown_info">
-              <a>Role: {userDetails.role}</a>
-              <a>Email: {userDetails.email}</a>
-              <a>Username: {userDetails.username}</a>
-            </div>
-          )}
+        <div className="info">
+          <a>Role: {userDetails.role}</a>
+          <br></br>
+          <a>Email: {userDetails.email}</a>
+          <br></br>
+          <a>Username: {userDetails.username}</a>
         </div>
-
-        <button className="button" onClick={handleSignOut}>
+        <button className="signout-button" onClick={handleSignOut}>
           Sign-Out
         </button>
         <label className="search">
@@ -184,7 +173,7 @@ export default function T_Account({ token, setToken }) {
           ? searchClient.map((users) => {
               if (users.role == "client") {
                 return (
-                  <div className="client_list" key={users.id}>
+                  <div className="list" key={users.id}>
                     <p>
                       {users.first_name} {users.last_name}
                     </p>
@@ -230,10 +219,13 @@ export default function T_Account({ token, setToken }) {
                   <strong>Description:</strong> {workout.description}
                 </p>
                 <button
-                  onClick={() => edit_workout(workout.id, userDetails.id)}
+                  onClick={() =>
+                    allowEditWorkout(workout.id, workout.name, workout.description)
+                  }
                 >
                   Edit Workout
                 </button>
+                <br></br>
                 <button onClick={() => handleDelete(workout.id)}>
                   Delete Workout
                 </button>
@@ -241,6 +233,36 @@ export default function T_Account({ token, setToken }) {
             );
           })}
       </div>
+      {isEditingWorkout && (
+        <div>
+          <form
+            className="login"
+            onSubmit={() => handle_Edit_workout(editWorkout.id, editWorkout.name, editWorkout.description )}
+          >
+            <label>
+              Name:{" "}
+              <input
+                type="text"
+                name="name"
+                value={editWorkout.name}
+                onChange={handleEditChange}
+                required
+              />
+            </label>
+            <label>
+              Description:{" "}
+              <input
+                type="text"
+                name="description"
+                value={editWorkout.description}
+                onChange={handleEditChange}
+                required
+              />
+            </label>
+            <button className="button">Edit</button>
+          </form>
+        </div>
+      )}
     </>
   );
 }

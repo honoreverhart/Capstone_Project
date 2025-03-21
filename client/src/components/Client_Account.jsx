@@ -59,22 +59,21 @@ export default function C_Account({ token, setToken }) {
           (trainer.last_name &&
             trainer.last_name
               .toLowerCase()
-              .startsWith(searchParam.toLowerCase()))
+              .startsWith(searchParam.toLowerCase())) 
       )
     : userData;
   return (
     <>
       <div>
-        <h1>
+        <h1 className="name">
           Welcome {userDetails.first_name} {userDetails.last_name}!!
         </h1>
-
-        <h3>Your information:</h3>
-        <button>Show Info</button>
-        <div>
-          <p>Role: {userDetails.role}</p>
-          <p>Email: {userDetails.email}</p>
-          <p>Username: {userDetails.username}</p>
+        <div className="info">
+          <a>Role: {userDetails.role}</a>
+          <br></br>
+          <a>Email: {userDetails.email}</a>
+          <br></br>
+          <a>Username: {userDetails.username}</a>
         </div>
 
         <div>
@@ -87,27 +86,22 @@ export default function C_Account({ token, setToken }) {
             />
           </label>
         </div>
-        {/* <div className="allTrainers">
-        {searchTrainer.map((trainer) => {
-          return (
-            {}
-          );
-        })}
-      </div> */}
-        <h3>Trainers:</h3>
-        {userData && userDetails.role === "client"
-          ? searchTrainer.map((users) => {
-              if (users.role == "trainer") {
-                return (
-                  <div className="client_list" key={users.id}>
-                    <p>
-                      {users.first_name} {users.last_name}
-                    </p>
-                  </div>
-                );
-              }
-            })
-          : null}
+        <div className="list">
+          <h3>Trainers:</h3>
+          {userData && userDetails.role === "client"
+            ? searchTrainer.map((users) => {
+                if (users.role == "trainer") {
+                  return (
+                    <div key={users.id}>
+                      <p>
+                        {users.first_name} {users.last_name}
+                      </p>
+                    </div>
+                  );
+                }
+              })
+            : null}
+        </div>
         <button className="button" onClick={handleSignOut}>
           Sign-Out
         </button>

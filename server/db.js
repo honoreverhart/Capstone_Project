@@ -10,7 +10,7 @@ const jwt = require("jsonwebtoken");
 
 const createTables = async () => {
   const SQL = `
-    DROP TABLE IF EXISTS assigned_workouts;
+    DROP TABLE IF EXISTS editWorkouts;
     DROP TABLE IF EXISTS workouts;
     DROP TABLE IF EXISTS users;
     DROP TYPE role_enum;
@@ -30,8 +30,8 @@ const createTables = async () => {
         description VARCHAR(255) NOT NULL
     );
    CREATE TABLE editWorkouts(
-        user_id UUID REFERENCES users(id) NOT NULL
-        workout_id INTEGER REFERENCES workouts(id) NOT NULL,
+        user_id UUID REFERENCES users(id) NOT NULL,
+        workout_id INTEGER REFERENCES workouts(id) NOT NULL
   );
     
     `;
@@ -94,12 +94,14 @@ const destroyWorkout = async (id) => {
   await client.query(SQL, [id]);
 };
 
-const editWorkout = async ({ user_id, workout_id}) => {
+const editWorkout = async ({ id, name, description }) => {
   const SQL = `
-    INSERT INTO editWorkouts(user_id, workout_id) VALUES($1, $2) RETURNING *
-    `;
-    console.log(user_id, workout_id)
-  const response = await client.query(SQL, [user_id, workout_id]);
+    UPDATE workouts
+    SET name = $1, description = $2
+    WHERE id = $3
+    RETURNING *;
+  `;
+  const response = await client.query(SQL, [name, description, id]);
   return response.rows[0];
 };
 
@@ -110,13 +112,13 @@ const authenticate = async ({ username, password }) => {
   const response = await client.query(SQL, [username]);
   if (
     !response.rows.length ||
-    (await bcrypt.compare(password, response.rows[0].password)) === false
+    !(await bcrypt.compare(password, response.rows[0].password))
   ) {
     const error = Error("not authorized");
     error.status = 401;
     throw error;
   }
-  console.log(response);
+  (response);
   const token = jwt.sign(response.rows[0], JWT);
   return { token: token, user: response.rows[0] };
 };
@@ -124,7 +126,7 @@ const authenticate = async ({ username, password }) => {
 const findUserWithToken = async (token) => {
   let id;
   try {
-    const payload = jwt.verify(token.replace("Bearer ", ""), JWT);
+    const payload = jwt.verify(token, JWT);
     id = payload.id;
   } catch (ex) {
     const error = Error("not authorized");
@@ -137,7 +139,7 @@ const findUserWithToken = async (token) => {
   `;
   const response = await client.query(SQL, [id]);
   if (!response.rows.length) {
-    const error = Error("not authorized");
+    const error = Error("User not found");
     error.status = 401;
     throw error;
   }
