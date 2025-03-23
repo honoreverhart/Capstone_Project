@@ -149,39 +149,42 @@ export default function T_Account({ token, setToken }) {
         <h1>
           Welcome {userDetails.first_name} {userDetails.last_name}!!
         </h1>
-
-        <div className="info">
-          <a>Role: {userDetails.role}</a>
-          <br></br>
-          <a>Email: {userDetails.email}</a>
-          <br></br>
-          <a>Username: {userDetails.username}</a>
+        <div className="info_and_button">
+          <div className="info">
+            <a>Role: {userDetails.role}</a>
+            <br></br>
+            <a>Email: {userDetails.email}</a>
+            <br></br>
+            <a>Username: {userDetails.username}</a>
+          </div>
+          <button className="button" onClick={handleSignOut}>
+            Sign-Out
+          </button>
         </div>
-        <button className="signout-button" onClick={handleSignOut}>
-          Sign-Out
-        </button>
+        <br></br>
         <label className="search">
           Search for Client:{" "}
           <input
             type="text"
-            placeholder="search"
             onChange={(e) => setSearchParam(e.target.value.toLowerCase())}
           />
         </label>
-        <h3>Clients:</h3>
-        {userData && userDetails.role === "trainer"
-          ? searchClient.map((users) => {
-              if (users.role == "client") {
-                return (
-                  <div className="list" key={users.id}>
-                    <p>
-                      {users.first_name} {users.last_name}
-                    </p>
-                  </div>
-                );
-              }
-            })
-          : null}
+        <div className="users">
+          <h3>Clients:</h3>
+          {userData && userDetails.role === "trainer"
+            ? searchClient.map((users) => {
+                if (users.role == "client") {
+                  return (
+                    <div className="userCard" key={users.id}>
+                      <a>
+                        {users.first_name} {users.last_name}
+                      </a>
+                    </div>
+                  );
+                }
+              })
+            : null}
+        </div>
 
         <form className="createWorkout" onSubmit={handleSubmit}>
           <label>
@@ -204,7 +207,7 @@ export default function T_Account({ token, setToken }) {
               required
             />
           </label>
-          <button>Create Workout</button>
+          <button className="button">Create Workout</button>
         </form>
 
         <h3>Workouts:</h3>
@@ -216,7 +219,7 @@ export default function T_Account({ token, setToken }) {
                   <strong>Name:</strong> {workout.name}
                   <br></br>
                   <strong>Description:</strong> {workout.description}
-                  <div cassName="button-container">
+                  <div className="button-container">
                     <button
                       onClick={() =>
                         allowEditWorkout(

@@ -56,7 +56,7 @@ export default function Login({ setToken }) {
           </label>
           <button className="button">Login</button>
         </form>
-        <button className="button" onClick={() => navigate("/")}>
+        <button className="back_to_homepage_button" onClick={() => navigate("/")}>
           Back To Home Page
         </button>
       </div>
