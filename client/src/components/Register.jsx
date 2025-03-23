@@ -91,14 +91,14 @@ export default function Register({ setToken }) {
             />
           </label>
           <label>
-            <select name="role" value={formData.role} onChange={handleChange}>
+            <select className="role" name="role" value={formData.role} onChange={handleChange}>
               <option value="client">Client</option>
               <option value="trainer">Trainer</option>
             </select>
           </label>
-          <button className="button">Login</button>
+          <button className="register_button">Create Account!</button>
         </form>
-        <button className="button" onClick={() => navigate("/")}>
+        <button className="back_to_homepage_button" onClick={() => navigate("/")}>
           Back To Home Page
         </button>
       </div>

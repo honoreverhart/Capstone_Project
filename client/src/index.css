@@ -76,6 +76,7 @@ h3 {
   border-radius: 50px 50px 15px 15px;
   width: 600px;
   height: 20px;
+  justify-content: center;
 }
 @media (max-width: 768px) {
   h1 {
@@ -184,6 +185,34 @@ h3 {
   font-family: Lucida Handwriting;
   margin: 20px;
   display: flex;
+}
+
+.register{
+  font-family: Lucida Handwriting;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.role{
+  height: 40px;
+  width: 100px;
+  font-family: Lucida Handwriting;
+}
+
+.register_button{
+  background-color: #f5cac3;
+  color: black;
+  text-align: center;
+  justify-content: center;
+  border-radius: 15px 15px;
+  font-family: Lucida Handwriting;
+  height: 40px;
+}
+
+.register_button:hover{
+  background-color: #c3928a;
 }
 
 .back_to_homepage_button {
