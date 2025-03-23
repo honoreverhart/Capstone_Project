@@ -408,6 +408,7 @@ h3 {
   width: 100%;
   flex-wrap: wrap;
   margin-top: 20px;
+  padding: 20px;
 }
 
 .userCard {

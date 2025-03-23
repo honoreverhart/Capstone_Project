@@ -75,19 +75,21 @@ export default function C_Account({ token, setToken }) {
   return (
     <>
       <div>
-        <h1 className="name">
+        <h1 className="welcome_sign">
           Welcome {userDetails.first_name} {userDetails.last_name}!!
         </h1>
-        <div className="info">
-          <a>Role: {userDetails.role}</a>
-          <br></br>
-          <a>Email: {userDetails.email}</a>
-          <br></br>
-          <a>Username: {userDetails.username}</a>
+        <div className="info_and_button">
+          <div className="info">
+            <a>Role: {userDetails.role}</a>
+            <br></br>
+            <a>Email: {userDetails.email}</a>
+            <br></br>
+            <a>Username: {userDetails.username}</a>
+          </div>
+          <button className="button" onClick={handleSignOut}>
+            Sign-Out
+          </button>
         </div>
-        <button className="button" onClick={handleSignOut}>
-          Sign-Out
-        </button>
 
         <div>
           <label className="search">
@@ -99,35 +101,37 @@ export default function C_Account({ token, setToken }) {
             />
           </label>
         </div>
-        <div className="list">
-          <h3>Trainers:</h3>
+        <h3 className="headers">Trainers:</h3>
+        <div className="users">
           {userData && userDetails.role === "client"
             ? searchTrainer.map((users) => {
                 if (users.role == "trainer") {
                   return (
-                    <div key={users.id}>
-                      <p>
+                    <div className="userCard" key={users.id}>
+                      <a>
                         {users.first_name} {users.last_name}
-                      </p>
+                      </a>
                     </div>
                   );
                 }
               })
             : null}
         </div>
-        <h3>Workouts:</h3>
-        {workoutData &&
-          workoutData.map((workout) => {
-            return (
-              <div className="workout" key={workout.id}>
-                <a className="workoutCard">
-                  <strong>Name:</strong> {workout.name}
-                  <br></br>
-                  <strong>Description:</strong> {workout.description}
-                </a>
-              </div>
-            );
-          })}
+        <h3 className="headers">Workouts:</h3>
+        <div className="workout">
+          {workoutData &&
+            workoutData.map((workout) => {
+              return (
+                <div className="workoutCard" key={workout.id}>
+                  <a>
+                    <strong>Name:</strong> {workout.name}
+                    <br></br>
+                    <strong>Description:</strong> {workout.description}
+                  </a>
+                </div>
+              );
+            })}
+        </div>
       </div>
     </>
   );
