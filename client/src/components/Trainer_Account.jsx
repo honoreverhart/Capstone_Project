@@ -146,7 +146,7 @@ export default function T_Account({ token, setToken }) {
   return (
     <>
       <div>
-        <h1>
+        <h1 className="welcome_sign">
           Welcome {userDetails.first_name} {userDetails.last_name}!!
         </h1>
         <div className="info_and_button">
@@ -169,8 +169,9 @@ export default function T_Account({ token, setToken }) {
             onChange={(e) => setSearchParam(e.target.value.toLowerCase())}
           />
         </label>
+
+        <h3 className="headers">Clients:</h3>
         <div className="users">
-          <h3>Clients:</h3>
           {userData && userDetails.role === "trainer"
             ? searchClient.map((users) => {
                 if (users.role == "client") {
@@ -210,36 +211,38 @@ export default function T_Account({ token, setToken }) {
           <button className="button">Create Workout</button>
         </form>
 
-        <h3>Workouts:</h3>
-        {workoutData &&
-          workoutData.map((workout) => {
-            return (
-              <div className="workout" key={workout.id}>
-                <a className="workoutCard">
-                  <strong>Name:</strong> {workout.name}
-                  <br></br>
-                  <strong>Description:</strong> {workout.description}
-                  <div className="button-container">
-                    <button
-                      onClick={() =>
-                        allowEditWorkout(
-                          workout.id,
-                          workout.name,
-                          workout.description
-                        )
-                      }
-                    >
-                      Edit Workout
-                    </button>
+        <h3 className="headers">Workouts:</h3>
+        <div className="workout">
+          {workoutData &&
+            workoutData.map((workout) => {
+              return (
+                <div className="workoutCard" key={workout.id}>
+                  <a>
+                    <strong>Name:</strong> {workout.name}
                     <br></br>
-                    <button onClick={() => handleDelete(workout.id)}>
-                      Delete Workout
-                    </button>
-                  </div>
-                </a>
-              </div>
-            );
-          })}
+                    <strong>Description:</strong> {workout.description}
+                    <div className="button-container">
+                      <button
+                        onClick={() =>
+                          allowEditWorkout(
+                            workout.id,
+                            workout.name,
+                            workout.description
+                          )
+                        }
+                      >
+                        Edit Workout
+                      </button>
+                      <br></br>
+                      <button onClick={() => handleDelete(workout.id)}>
+                        Delete Workout
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              );
+            })}
+        </div>
       </div>
       {isEditingWorkout && (
         <div>

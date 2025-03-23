@@ -34,10 +34,8 @@ body {
   justify-content: center;
 }
 
-.homepage_img{
-  
-  border-radius: 15px 15px;
-  
+.homepage_img{ 
+  border-radius: 15px 15px; 
 }
 
 h1 {
@@ -72,12 +70,15 @@ p {
 }
 
 h3 {
+  display: flex;
   font-family: Lucida Handwriting;
   border-radius: 50px 50px 15px 15px;
   width: 600px;
   height: 20px;
   justify-content: center;
+  align-items: center;  
 }
+
 @media (max-width: 768px) {
   h1 {
     width: 80%;
@@ -229,6 +230,38 @@ h3 {
 
 .back_to_homepage_button:hover{
   background-color:  #c08423;
+}
+
+.welcome_sign{
+  font-family: Lucida Handwriting;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #84a59d;
+  padding: 30px;
+  color: white;
+  text-align: center;
+  border-radius: 15px 50px;
+  width: 600px;
+  height: 150px;
+  position: relative;
+  left: 23%;
+}
+
+.headers{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f6bd60;
+  text-align: center;
+  color: black;
+  border-radius: 50px 50px 15px 15px;
+  padding: 30px;
+  width: 600px;
+  height: auto;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto; 
 }
 
 .info {
@@ -415,16 +448,20 @@ h3 {
   box-shadow: inset;
   padding: 10px;
   margin: 15px;
+  gap: 15px;
   font-family: Lucida Handwriting;
 }
 .button {
   float: right;
   background-color: #f5cac3;
   color: black;
+  align-items: center;
   text-align: center;
   justify-content: center;
   border-radius: 15px 15px;
   font-family: Lucida Handwriting;
+  height: 20px;
+  width: 250px;
 }
 
 .button:hover {
