@@ -187,7 +187,7 @@ h3 {
 }
 
 .back_to_homepage_button {
-  background-color: #f5cac3;
+  background-color:  #dc982a;
   color: black;
   text-align: center;
   justify-content: center;
@@ -196,6 +196,10 @@ h3 {
   width: 300px;
   font-family: Lucida Handwriting;
   cursor: pointer;
+}
+
+.back_to_homepage_button:hover{
+  background-color:  #c08423;
 }
 
 .info {
