@@ -102,6 +102,7 @@ h3 {
   align-items: center;
   overflow: hidden;
   width: 100%;
+  max-width: 100%;
   padding: 10px 20px;
   margin: 0;
   position: fixed;
@@ -113,15 +114,14 @@ h3 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   z-index: 10;
+  box-sizing: border-box;
 }
 
 .nav-button{
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  float: right;
-  background-color:#f7ede2;
+  background-color:#f6bab1;
   color: black;
   text-align: center;
   justify-content: center;
@@ -133,8 +133,10 @@ h3 {
   background-color: #c3928a;
 }
 
-
 .navbar.logo {
+  position: relative;
+  display: flex;
+  align-items: center;
   margin: 10px;
   color: #333;
   transition: color 0.3s ease;
@@ -278,29 +280,37 @@ h3 {
 .piece1, .piece2, .piece3{
   width: 0;
   height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 30px solid;
+  border-left: 25px solid transparent;
+  border-right: 25px solid transparent; 
+  border-bottom: 50px solid; 
   position: absolute;
-  top: 15px;
+  top: 0; 
 }
 
 .piece1 {
-  border-bottom: 30px solid rgb(45, 45, 75);
-  left: -87px;
-  z-index: 2;
+  border-bottom: 60px solid rgb(45, 45, 75); 
+  left: 20px;
+  top: 20px;
+  z-index: 1;
 }
 
 .piece2 {
-  border-bottom: 30px solid rgb(94, 94, 165);
-  left: -100px;
-  z-index: 1;
+  border-bottom: 60px solid rgb(94, 94, 165); 
+  left: 5px;
+  top: 20px;
+  z-index: 2;
 }
 
 .piece3 {
-  border-bottom: 30px solid rgb(45, 45, 75);
-  left: -115px;
+  border-bottom: 60px solid rgb(45, 45, 75); 
+  left: -10px; 
+  top: 20px;
   z-index: 1;
+}
+
+h2.logo {
+  font-size: 30px;
+  margin-left: 50px; /* Space the logo text away from the mountains */
 }
 
 @media (max-width: 768px) {
