@@ -25,6 +25,10 @@ app.use(
   "/assets",
   express.static(path.join(__dirname, "../client/dist/assets"))
 );
+app.use(
+  "/pictures",
+  express.static(path.join(__dirname, "../client/dist/pictures"))
+);
 
 //middleware
 const isLoggedIn = async (req, res, next) => {
