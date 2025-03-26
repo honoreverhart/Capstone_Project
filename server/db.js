@@ -13,7 +13,7 @@ const createTables = async () => {
     DROP TABLE IF EXISTS editWorkouts;
     DROP TABLE IF EXISTS workouts;
     DROP TABLE IF EXISTS users;
-    DROP TYPE role_enum;
+    DROP TYPE IF EXISTS role_enum;
     CREATE TYPE role_enum AS ENUM ('trainer', 'client');
     CREATE TABLE users(
         id UUID PRIMARY KEY,
