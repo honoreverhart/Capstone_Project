@@ -138,7 +138,7 @@ app.use((err, req, res, next) => {
 });
 
 const init = async () => {
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 10000;
   await client.connect();
   console.log("connected to database");
 
