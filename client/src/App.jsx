@@ -4,7 +4,7 @@ import Trainer_Account from "./components/Trainer_Account";
 import Client_Account from "./components/Client_Account";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 import "./App.css";
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<HomePage token={token} setToken={setToken} />} />
           <Route path="/login" element={<Login setToken={setToken}/>} />
@@ -27,7 +27,7 @@ function App() {
           <Route path="/t_account" element={<Trainer_Account token={token} setToken={setToken}/>} />
           <Route path="/c_account" element={<Client_Account token={token} setToken={setToken}/>} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }

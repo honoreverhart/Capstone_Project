@@ -142,12 +142,11 @@ app.use((err, req, res, next) => {
 });
 
 const init = async () => {
-  const port = process.env.PORT || 10000;
+  const port = process.env.PORT || 3000;
   await client.connect();
   console.log("connected to database");
 
   app.listen(port, () => console.log(`listening on port ${port}`));
-  client.end();
 };
 
 init();

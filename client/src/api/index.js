@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:10000/api";
+const BASE_URL = "http://localhost:3000/api";
 
 export async function getUsers() {
   try {
