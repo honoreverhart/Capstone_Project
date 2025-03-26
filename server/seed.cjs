@@ -60,10 +60,10 @@ async function builtdb() {
           "bench 55% of your one rep max every two minutes for ten minutes",
       }),
       createWorkout({ name: "backsquat", description: "backsquat bodyweight" }),
-    ]);
+    ]).then(()=> {console.log("feed done!!")});
     
-    console.log(await fetchUser());
-    console.log(await fetchWorkout());
+    
+    return;
     
   } catch (error) {
     throw error;
