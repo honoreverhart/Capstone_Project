@@ -14,11 +14,11 @@
 
 ![Screenshot 2025-04-05 161541](https://github.com/user-attachments/assets/2baed0c4-67bb-4087-be3e-160601a5848b)
 
-#Desciption
+# Desciption
 EndurancePeak is a website that seeks to help you in your fitness journey. Sign in or create an account as a client to view a list of trainers and the workouts created. Sign in or create an account as a trainer to view a list of clients and create, edit, and delete workouts. Together, as trainers and clients, we can strive to be the best versions of ourselves and seek continous improvement!
 
 
-#Tools
+# Tools
 React -- Javascript Library
 Javascript -- Code
 Css -- Design
@@ -29,7 +29,7 @@ Fetch API -- Pull Backend Data
 Prettier -- Formatting
 Render -- Deploy Porject
 
-#Installation Process
+# Installation Process
 Fork Project
 Copy SSH Key (Example SSH key: https://github.com/yourusername/yourproject.git)
 Go to Visual Studio
@@ -40,5 +40,5 @@ Run command "npm install"
 Run command "npm create vite@latest"
 Click on link provided
 
-#DEPLOYED PROJECT:
+# DEPLOYED PROJECT:
 https://capstone-project-54og.onrender.com
