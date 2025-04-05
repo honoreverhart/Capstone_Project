@@ -19,26 +19,26 @@ EndurancePeak is a website that seeks to help you in your fitness journey. Sign 
 
 
 # Tools
-React -- Javascript Library
-Javascript -- Code
-Css -- Design
-Git -- Hold Project
-Github -- Make changes
-npm -- Run site
-Fetch API -- Pull Backend Data
-Prettier -- Formatting
-Render -- Deploy Porject
+- React -- Javascript Library
+- Javascript -- Code
+- Css -- Design
+- Git -- Hold Project
+- Github -- Make changes
+- npm -- Run site
+- Fetch API -- Pull Backend Data
+- Prettier -- Formatting
+- Render -- Deploy Project
 
 # Installation Process
-Fork Project
-Copy SSH Key (Example SSH key: https://github.com/yourusername/yourproject.git)
-Go to Visual Studio
-Open terminal
-Type in the command "git clone https://github.com/yourusername/yourproject.git"
-Enter cloned file by using command "cd yourproject"
-Run command "npm install"
-Run command "npm create vite@latest"
-Click on link provided
+- Fork Project
+- Copy SSH Key (Example SSH key: https://github.com/yourusername/yourproject.git)
+- Go to Visual Studio
+- Open terminal
+- Type in the command "git clone https://github.com/yourusername/yourproject.git"
+- Enter cloned file by using command "cd yourproject"
+- Run command "npm install"
+- Run command "npm create vite@latest"
+- Click on link provided
 
 # DEPLOYED PROJECT:
 https://capstone-project-54og.onrender.com
