@@ -3,13 +3,7 @@ const {
   client,
   createTables,
   createUser,
-  fetchUser,
   createWorkout,
-  fetchWorkout,
-  destroyWorkout,
-  assignWorkout,
-  authenticate,
-  findUserWithToken,
 } = require("./db");
 
 async function builtdb() {

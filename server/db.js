@@ -1,12 +1,13 @@
 const pg = require("pg");
 const client = new pg.Client(
   process.env.DATABASE_URL ||
-    "postgres://localhost:3000/capstone_project_db"
+    "postgres://Honor:Ephesians4:29@localhost:5432/capstone_project_db"
 );
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
 const JWT = process.env.JWT || "shhh";
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const createTables = async () => {
   const SQL = `
