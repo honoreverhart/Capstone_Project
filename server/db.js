@@ -1,7 +1,7 @@
 const pg = require("pg");
 const client = new pg.Client(
   process.env.DATABASE_URL ||
-    "postgres://Honor:Ephesians4:29@localhost:5432/capstone_project_db"
+    "postgres://Honor:Ephesians429@localhost:5432/capstone_project_db"
 );
 const uuid = require("uuid");
 const bcrypt = require("bcrypt");
