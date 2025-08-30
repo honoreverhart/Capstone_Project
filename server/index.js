@@ -31,6 +31,10 @@ app.use(
 );
 
 //middleware
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running!");
+});
+
 const isLoggedIn = async (req, res, next) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
@@ -142,11 +146,13 @@ app.use((err, req, res, next) => {
 });
 
 const init = async () => {
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 5000;
   await client.connect();
   console.log("connected to database");
 
-  app.listen(port, () => console.log(`listening on port ${port}`));
+  app.listen(5000, "127.0.0.1", () => {
+    console.log("listening on port 5000");
+  });
 };
 
 init();

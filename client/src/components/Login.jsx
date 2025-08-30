@@ -21,6 +21,7 @@ export default function Login({ setToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loginT = await getLoginToken(formData);
+    console.log("Login Reference: ", loginT);
     if (loginT.token) {
       setToken(loginT.token);
       localStorage.setItem("token", loginT.token);
